@@ -1,0 +1,8 @@
+{
+  "short_name": "CBT System",
+  "name": "Computer-Based Testing System",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

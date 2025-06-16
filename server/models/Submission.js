@@ -1,0 +1,17 @@
+const mongoose = require('mongoose');
+
+const answerSchema = new mongoose.Schema({
+  questionId: { type: String, required: true },
+  selectedOption: { type: Number, required: true }
+});
+
+const submissionSchema = new mongoose.Schema({
+  exam: { type: mongoose.Schema.Types.ObjectId, ref: 'Exam', required: true },
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
+  answers: [answerSchema],
+  score: { type: Number, default: null },
+  approved: { type: Boolean, default: false }, // Admin approval for result release
+  submittedAt: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model('Submission', submissionSchema);
