@@ -1,11 +1,14 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const auth = require("../middlewares/auth");
-const {  getStaffs, createStaff, deactivateStffAccount } = require("../controllers/staff");
-
+import auth from "../middlewares/auth.js";
+import {
+  getStaffs,
+  createStaff,
+  deactivateStffAccount,
+} from "../controllers/staff.js";
 
 router.post("/", auth(["Admin"]), getStaffs);
 router.get("/", auth(["Admin"]), createStaff);
 router.get("/deactivate-account", auth(["Admin"]), deactivateStffAccount);
 
-module.exports = router;
+export default router;

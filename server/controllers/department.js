@@ -1,50 +1,44 @@
-const Department = require("../models/Department");
+import Department from "../models/Department.js";
 
-const createDepartment = async (req, res, next) => {
+export const createDepartment = async (req, res, next) => {
   try {
     const department = new Department({ ...req.body });
     await department.save();
 
-    res.status(201).json(department);
+    res.status(201).json({ success: true, message: "Department created successfully", department });
   } catch (err) {
     next(err);
   }
 };
 
-const getDepartments = async (req, res, next) => {
+export const getDepartments = async (req, res, next) => {
   try {
     const departments = await Department.find().sort({ createdAt: -1 });
-    res.json(departments);
+    res.status(200).json({ success: true, departments });
   } catch (err) {
     next(err);
   }
 };
 
-const updateDepartment = async (req, res, next) => {
+export const updateDepartment = async (req, res, next) => {
   try {
     const department = await Department.findByIdAndUpdate(
       req.params.id,
       { $set: { ...req.body } },
       { new: true }
     );
-    res.json(department);
+    res.status(205).json({ success: true, message: "Department updated successfully", department });
   } catch (err) {
     next(err);
   }
 };
 
-const deleteDepartment = async (req, res, next) => {
+export const deleteDepartment = async (req, res, next) => {
   try {
     await Department.findByIdAndDelete(req.params.id);
-    res.status(204);
+    res.status(204).json({ success: true, message: "Department deleted successfully" });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = {
-  getDepartments,
-  updateDepartment,
-  createDepartment,
-  deleteDepartment,
-};

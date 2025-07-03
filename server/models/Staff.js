@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const staffSchema = new mongoose.Schema(
   {
@@ -10,10 +10,12 @@ const staffSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     staffIdNumber: { type: String, required: true },
     dateOfBirth: { type: String, required: true },
-    deactivated: { type: String, required: false },
+    deactivated: { type: Boolean, default: false },
     gender: { type: String, enum: ["male", "female"], required: true },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Staff", staffSchema);
+const Staff = mongoose.model("Staff", staffSchema);
+
+export default Staff;

@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 
 
-module.exports = connectDb = async (uri) => {
+const connectDb = async (uri) => {
     try {
         await mongoose.connect(uri);
         console.log('connected to OMS_AuthService DB');
@@ -10,3 +10,5 @@ module.exports = connectDb = async (uri) => {
         throw err
     }
 }
+
+export default connectDb;

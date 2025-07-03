@@ -1,12 +1,16 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const auth = require("../middlewares/auth");
-const { updateCourse, deleteCourse, getCourses, createCourse } = require("../controllers/course");
-
+import auth from "../middlewares/auth.js";
+import {
+  updateCourse,
+  deleteCourse,
+  getCourses,
+  createCourse,
+} from "../controllers/course.js";
 
 router.post("/", auth(["Admin"]), createCourse);
 router.get("/", auth(["Admin"]), getCourses);
 router.put("/:id", auth(["Admin"]), updateCourse);
 router.delete("/:id", auth(["Admin"]), deleteCourse);
 
-module.exports = router;
+export default router;

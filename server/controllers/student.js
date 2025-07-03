@@ -1,10 +1,11 @@
-const Student = require('../models/Student');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+import Student from '../models/Student.js';
+import bcrypt from 'bcryptjs';
+import User from '../models/User.js';
+import { ROLES } from '../utils/SD.js';
 
 
-const createStudent = async (req, res, next) => {
-  const { password, role, ...data } = req.body;
+export const createStudent = async (req, res, next) => {
+  const { password, role, email, ...data } = req.body;
   try {
     if (!["Student", "Lecturer", "Admin"].includes(role)) 
         return res.status(400).json({ message: "Invalid role" });
@@ -15,8 +16,8 @@ const createStudent = async (req, res, next) => {
     
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({ password: hashedPassword, role });
-        const student = new Student({ user: user._id, ...data });
-
+        const student = new Student({ user: user._id, email, ...data });
+        user.roles.push([ROLES[2]]);
         await user.save();
         await Student.save();
     
@@ -26,7 +27,7 @@ const createStudent = async (req, res, next) => {
   }
 };
 
-const getStudents = async (req, res, next) => {
+export const getStudents = async (req, res, next) => {
   try {
     const feedback = await Student.find().sort({ createdAt: -1 });
     res.json(feedback);
@@ -35,7 +36,7 @@ const getStudents = async (req, res, next) => {
   }
 };
 
-const updateStudent = async (req, res, next) => {
+export const updateStudent = async (req, res, next) => {
   try {
     const student = Student.findByIdAndUpdate(req.params.id, { $set: { ...req.body }}, { new: true }); 
     res.json(student);
@@ -44,7 +45,7 @@ const updateStudent = async (req, res, next) => {
   }
 };
 
-const deactivateStudentAccount = async (req, res, next) => {
+export const deactivateStudentAccount = async (req, res, next) => {
   try {
     const student = Student.findByIdAndUpdate(req.params.id, { $set: { deactivated: true }}, { new: true }); 
     res.json(student);
@@ -53,5 +54,3 @@ const deactivateStudentAccount = async (req, res, next) => {
   }
 };
 
-
-module.exports = { getStudents, updateStudent, createStudent, deactivateStudentAccount }

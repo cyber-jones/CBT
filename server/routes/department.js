@@ -1,12 +1,16 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const auth = require("../middlewares/auth");
-const { updateDepartment, deleteDepartment, getDepartments, createDepartment } = require("../controllers/department");
-
+import auth from "../middlewares/auth.js";
+import {
+  updateDepartment,
+  deleteDepartment,
+  getDepartments,
+  createDepartment,
+} from "../controllers/department.js";
 
 router.post("/", auth(["Admin"]), createDepartment);
 router.get("/", auth(["Admin"]), getDepartments);
 router.put("/:id", auth(["Admin"]), updateDepartment);
 router.delete("/:id", auth(["Admin"]), deleteDepartment);
 
-module.exports = router;
+export default router;

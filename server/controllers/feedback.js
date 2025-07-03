@@ -1,7 +1,7 @@
-const Feedback = require('../models/Feedback');
+import Feedback from '../models/Feedback.js';
 
 
-const submitFeedback = async (req, res, next) => {
+export const submitFeedback = async (req, res, next) => {
   const { category, comment } = req.body;
   try {
     const feedback = new Feedback({
@@ -17,7 +17,7 @@ const submitFeedback = async (req, res, next) => {
   }
 };
 
-const getFeedback = async (req, res, next) => {
+export const getFeedback = async (req, res, next) => {
   try {
     const feedback = await Feedback.find().sort({ createdAt: -1 });
     res.json(feedback);
@@ -26,7 +26,7 @@ const getFeedback = async (req, res, next) => {
   }
 };
 
-const getFeedbackSummary = async (req, res, next) => {
+export const getFeedbackSummary = async (req, res, next) => {
   try {
     const summary = await Feedback.aggregate([
       {
@@ -43,4 +43,3 @@ const getFeedbackSummary = async (req, res, next) => {
 };
 
 
-module.exports = { getFeedback, getFeedbackSummary, submitFeedback }

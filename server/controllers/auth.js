@@ -1,39 +1,11 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 
 
 
-const register = async (req, res, next) => {
-  const { email, password, role } = req.body;
-  console.log(req.body);
-  if (!["Student", "Lecturer", "Admin"].includes(role)) {
-    return res.status(400).json({ message: "Invalid role" });
-  }
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return res.status(400).json({ message: "User already exists" });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword, role });
-    await user.save();
-
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1h",
-      }
-    );
-    res.status(201).json({ token, role: user.role });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const login = async (req, res, next) => {
+export const login = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -43,20 +15,40 @@ const login = async (req, res, next) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
+    const accessToken = jwt.sign(
+      { id: user._id, roles: user.roles, email: user.email },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
       }
     );
-    res.json({ token, role: user.role });
+
+    const token = jwt.sign(
+      { id: user._id, roles: user.roles, email: user.email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    const cookieOpt = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    };
+
+    user.token = token;
+    await user.save();
+
+    res.cookie("jwt", token, cookieOpt);
+    res.json({ success: true, accessToken, user });
   } catch (err) {
     next(err);
   }
 };
 
-const grantExamPermission = async (req, res, next) => {
+export const grantExamPermission = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user || user.role !== "Lecturer")
@@ -73,7 +65,7 @@ const grantExamPermission = async (req, res, next) => {
   }
 };
 
-const lecturers = async (req, res) => {
+export const lecturers = async (req, res) => {
   try {
     const lecturers = await User.find({ role: "Lecturer" }).select(
       "email canSetExams"
@@ -83,7 +75,3 @@ const lecturers = async (req, res) => {
     next(err);
   }
 };
-
-
-
-module.exports = { register, login, grantExamPermission, lecturers }

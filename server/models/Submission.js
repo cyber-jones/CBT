@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const answerSchema = new mongoose.Schema({
   questionId: { type: String, required: true },
@@ -12,6 +12,8 @@ const submissionSchema = new mongoose.Schema({
   score: { type: Number, default: null },
   approved: { type: Boolean, default: false }, // Admin approval for result release
   submittedAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('Submission', submissionSchema);
+const Submission = mongoose.model('Submission', submissionSchema);
+
+export default Submission;

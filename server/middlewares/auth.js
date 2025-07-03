@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-module.exports = (roles = []) => {
+const auth = (roles = []) => {
   return (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) return res.status(401).json({ message: 'No token provided' });
@@ -8,12 +8,19 @@ module.exports = (roles = []) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;
-      if (roles.length && !roles.includes(decoded.role)) {
+
+      const requiredRoles = roles;
+        const isValid = decoded.roles.map(role => requiredRoles.includes(role)).find(result => result === true);
+
+      if (roles.length && !isValid) {
         return res.status(403).json({ message: 'Access denied' });
       }
+      
       next();
     } catch (err) {
       next(err);
     }
   };
 };
+
+export default auth;

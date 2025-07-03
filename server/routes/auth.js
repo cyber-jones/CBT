@@ -1,18 +1,17 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const auth = require("../middlewares/auth");
-const {
-  register,
+import auth from "../middlewares/auth.js";
+import {
   login,
   grantExamPermission,
   lecturers,
-} = require("../controllers/auth");
+} from "../controllers/auth.js";
 
-router.post("/register", register);
+
 router.post("/login", login);
 // Admin: Grant/revoke exam-setting permission for lecturers
 router.put("/grant-exam-permission/:id", auth(["Admin"]), grantExamPermission);
 // Admin: Get all lecturers
 router.get("/lecturers", auth(["Admin"]), lecturers);
 
-module.exports = router;
+export default router;

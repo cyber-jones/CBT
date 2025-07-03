@@ -1,1 +1,1 @@
-export const server_dev_url = "http://localhost:9000";
+export const server_dev_url = "http://localhost:9000/apai";

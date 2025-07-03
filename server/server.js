@@ -1,16 +1,20 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const connectDb = require("./Data/connect.js");
-const authRoutes = require("./routes/auth");
-const examRoutes = require("./routes/exam");
-const feedbackRoutes = require("./routes/feedback");
-const studentRoutes = require("./routes/student.js");
-const staffRoutes = require("./routes/staff.js");
-const courseRoutes = require("./routes/course.js");
-const departmentRoutes = require("./routes/department.js");
-const __dirname = require("./config/directoryConfig.js");
-const errorHandler = require("./config/errorHandler.js");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import helment from "helmet";
+import connectDb from "./Data/connect.js";
+import authRoutes from "./routes/auth.js";
+import examRoutes from "./routes/exam.js";
+import feedbackRoutes from "./routes/feedback.js";
+import studentRoutes from "./routes/student.js";
+import staffRoutes from "./routes/staff.js";
+import courseRoutes from "./routes/course.js";
+import refreshRoutes from "./routes/refresh.js";
+import departmentRoutes from "./routes/department.js";
+import __dirname from "./config/directoryConfig.js";
+import errorHandler from "./config/errorHandler.js";
+import { corsOptions } from "./config/corsOption.js";
+import { credentials } from "./middlewares/corsCredentials.js";
 
 dotenv.config();
 
@@ -18,7 +22,9 @@ const app = express();
 const PORT = process.env.PORT || 9000;
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
+app.use(credentials);
+app.use(helment());
 app.use(express.json());
 const URI = process.env.MONGOOSE_DEV_URI;
 
@@ -33,20 +39,21 @@ app.use("/api/student", studentRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/department", departmentRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api", refreshRoutes);
 
 app.get("/", (req, res) => {
   res.send("CBT System Backend");
 });
 
-app.all("*", (req, res) => {
-  res.status(404);
+// app.all("/*", (req, res) => {
+//   res.status(404);
 
-  if (req.accepts("html"))
-    res.sendFile(path.join(__dirname, "views", "404.html"));
-  else if (req.accepts("json"))
-    res.json({ success: false, error: "404 Not found" });
-  else res.type("txt").send("404 Not found");
-});
+//   if (req.accepts("html"))
+//     res.sendFile(path.join(__dirname, "views", "404.html"));
+//   else if (req.accepts("json"))
+//     res.json({ success: false, error: "404 Not found" });
+//   else res.type("txt").send("404 Not found");
+// });
 
 app.use(errorHandler);
 

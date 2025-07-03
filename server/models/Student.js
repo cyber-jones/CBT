@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema(
   {
@@ -9,11 +9,13 @@ const studentSchema = new mongoose.Schema(
     middleName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     matricNumber: { type: String, required: true },
-    dateOfBirth: { type: String, required: true },
+    dateOfBirth: { type: Boolean, default: false },
     deactivated: { type: String, required: false },
     gender: { type: String, enum: ["male", "female"], required: true },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Student", studentSchema);
+const Student = mongoose.model("Student", studentSchema); 
+
+export default Student;

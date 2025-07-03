@@ -1,11 +1,11 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const auth = require("../middlewares/auth");
-const {
+import auth from "../middlewares/auth.js";
+import {
   submitFeedback,
   getFeedback,
   getFeedbackSummary,
-} = require("../controllers/feedback");
+} from "../controllers/feedback.js";
 
 // Submit feedback (Student or Lecturer)
 router.post("/", auth(["Student", "Lecturer"]), submitFeedback);
@@ -14,4 +14,4 @@ router.get("/", auth(["Admin"]), getFeedback);
 // Get feedback summary (Admin)
 router.get("/summary", auth(["Admin"]), getFeedbackSummary);
 
-module.exports = router;
+export default router;

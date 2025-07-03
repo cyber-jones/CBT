@@ -1,9 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['Student', 'Lecturer', 'Admin'], required: true },
-  canSetExams: { type: Boolean, default: false } // For lecturers, controlled by admin
+  roles: { type: [String], enum: ['Student', 'Lecturer', 'Admin'], required: true },
+  canSetExams: { type: Boolean, default: false }, // For lecturers, controlled by admin
+  token: { type: String, unique: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+
+export default User;
