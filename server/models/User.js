@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
+  idNumber: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  roles: { type: [String], enum: ['Student', 'Lecturer', 'Admin'], required: true },
+  roles: { type: [String], enum: ['Student', 'Lecturer', 'Admin']},
   canSetExams: { type: Boolean, default: false }, // For lecturers, controlled by admin
   token: { type: String, unique: true },
 }, { timestamps: true });

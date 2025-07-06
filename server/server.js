@@ -11,6 +11,7 @@ import staffRoutes from "./routes/staff.js";
 import courseRoutes from "./routes/course.js";
 import refreshRoutes from "./routes/refresh.js";
 import departmentRoutes from "./routes/department.js";
+import collegeRoutes from "./routes/college.js";
 import __dirname from "./config/directoryConfig.js";
 import errorHandler from "./config/errorHandler.js";
 import { corsOptions } from "./config/corsOption.js";
@@ -39,21 +40,12 @@ app.use("/api/student", studentRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/department", departmentRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api/college", collegeRoutes);
 app.use("/api", refreshRoutes);
 
 app.get("/", (req, res) => {
   res.send("CBT System Backend");
 });
-
-// app.all("/*", (req, res) => {
-//   res.status(404);
-
-//   if (req.accepts("html"))
-//     res.sendFile(path.join(__dirname, "views", "404.html"));
-//   else if (req.accepts("json"))
-//     res.json({ success: false, error: "404 Not found" });
-//   else res.type("txt").send("404 Not found");
-// });
 
 app.use(errorHandler);
 

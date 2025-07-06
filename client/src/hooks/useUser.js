@@ -1,14 +1,20 @@
 import useAppContext from "./useAppContext";
 import { toast } from "react-toastify";
 import useAxiosPrivate from "./useAxiosPrivate";
+import { Roles } from "../utils/SD";
 
 const useRefresh = () => {
   const { setUser } = useAppContext();
   const axiosPrivate = useAxiosPrivate();
+  const { authUser } = useAppContext();
 
   const fetchUser = async () => {
     try {
-      const res = await axiosPrivate.get("/refresh");
+        let res = null;
+        if (authUser?.roles.includes(Roles.LECTURER))
+            res = await axiosPrivate.get("/staff");
+        else 
+            res = await axiosPrivate.get("/student");
 
       if (res.status !== 200)
         return toast.error(res.data?.message || res.statusText);

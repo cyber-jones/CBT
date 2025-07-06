@@ -5,12 +5,15 @@ import {
   updateDepartment,
   deleteDepartment,
   getDepartments,
+  getDepartment,
   createDepartment,
 } from "../controllers/department.js";
+import { ROLES } from "../utils/SD.js";
 
-router.post("/", auth(["Admin"]), createDepartment);
-router.get("/", auth(["Admin"]), getDepartments);
-router.put("/:id", auth(["Admin"]), updateDepartment);
-router.delete("/:id", auth(["Admin"]), deleteDepartment);
+router.post("/", auth([ROLES[0]]), createDepartment);
+router.get("/", auth([ROLES]), getDepartments);
+router.get("/:id", auth([ROLES]), getDepartment);
+router.put("/:id", auth([ROLES[0]]), updateDepartment);
+router.delete("/:id", auth([ROLES[0]]), deleteDepartment);
 
 export default router;

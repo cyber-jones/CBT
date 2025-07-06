@@ -1,7 +1,6 @@
 import Exam from "../models/Exam.js";
 import Submission from "../models/Submission.js";
 
-
 export const createExam = async (req, res, next) => {
   const { course, questions } = req.body;
   try {
@@ -11,7 +10,9 @@ export const createExam = async (req, res, next) => {
 
     const exam = new Exam({ course, lecturer: req.user.id, questions });
     await exam.save();
-    res.status(201).json({ success: true, message: "Exam created successfully", exam });
+    res
+      .status(201)
+      .json({ success: true, message: "Exam created successfully", exam });
   } catch (err) {
     next(err);
   }
@@ -26,16 +27,31 @@ export const getAllExams = async (req, res, next) => {
   }
 };
 
+export const getExam = async (req, res, next) => {
+  try {
+    const exam = await Exam.findById(req.params.id)
+      .populate("course")
+      .populate("lecturer");
+    res.status(200).json({ success: true, exam });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const submitExam = async (req, res, next) => {
   const { examId, answers, studentId } = req.body;
   try {
     const submission = new Submission({
       exam: examId,
       student: studentId,
-      answers
+      answers,
     });
     await submission.save();
-    res.status(201).json({ success: true, message: "Exam submitted successfully", submission });
+    res.status(201).json({
+      success: true,
+      message: "Exam submitted successfully",
+      submission,
+    });
   } catch (err) {
     next(err);
   }
@@ -107,4 +123,3 @@ export const approveResult = async (req, res, next) => {
     next(err);
   }
 };
-

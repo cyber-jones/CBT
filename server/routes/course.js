@@ -5,12 +5,15 @@ import {
   updateCourse,
   deleteCourse,
   getCourses,
+  getCourse,
   createCourse,
 } from "../controllers/course.js";
+import { ROLES } from "../utils/SD.js";
 
-router.post("/", auth(["Admin"]), createCourse);
-router.get("/", auth(["Admin"]), getCourses);
-router.put("/:id", auth(["Admin"]), updateCourse);
-router.delete("/:id", auth(["Admin"]), deleteCourse);
+router.post("/", auth([ROLES[0]]), createCourse);
+router.get("/", auth([ROLES]), getCourses);
+router.get("/:id", auth([ROLES]), getCourse);
+router.put("/:id", auth([ROLES[0]]), updateCourse);
+router.delete("/:id", auth([ROLES[0]]), deleteCourse);
 
 export default router;

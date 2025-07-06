@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const RegisterCourse = () => {
+const UpdateDepartment = () => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
@@ -10,7 +10,7 @@ const RegisterCourse = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Course Registered:", formData);
+    console.log("Department Updateed:", formData);
     // Add your submission logic here (API call, reset form, etc.)
   };
 
@@ -18,7 +18,7 @@ const RegisterCourse = () => {
     <div className="p-6 h-full bg-green-100 font-sans">
       <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
         <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
-          Register New Course
+          Update Department
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -26,7 +26,7 @@ const RegisterCourse = () => {
               htmlFor="code"
               className="block text-sm font-medium text-gray-700"
             >
-              Course Code
+              Department Code
             </label>
             <input
               type="text"
@@ -41,16 +41,16 @@ const RegisterCourse = () => {
 
           <div>
             <label
-              htmlFor="title"
+              htmlFor="name"
               className="block text-sm font-medium text-gray-700"
             >
-              Course Title
+              Department Name
             </label>
             <input
               type="text"
-              id="title"
-              name="title"
-              value={formData.title}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -59,54 +59,16 @@ const RegisterCourse = () => {
 
           <div>
             <label
-              htmlFor="description"
+              htmlFor="college"
               className="block text-sm font-medium text-gray-700"
             >
-              Description
-            </label>
-            <input
-              type="text"
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="lecturer"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Lecturer
+              College
             </label>
             <select
               type="text"
-              id="lecturer"
-              name="lecturer"
-              value={formData.lecturer}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <option>Name</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="department"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Department
-            </label>
-            <select
-              type="text"
-              id="department"
-              name="department"
-              value={formData.department}
+              id="college"
+              name="college"
+              value={formData.college}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -119,7 +81,7 @@ const RegisterCourse = () => {
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-semibold"
           >
-            Register Course
+            Update Department
           </button>
         </form>
       </div>
@@ -127,4 +89,4 @@ const RegisterCourse = () => {
   );
 };
 
-export default RegisterCourse;
+export default UpdateDepartment;

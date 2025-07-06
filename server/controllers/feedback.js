@@ -1,5 +1,4 @@
-import Feedback from '../models/Feedback.js';
-
+import Feedback from "../models/Feedback.js";
 
 export const submitFeedback = async (req, res, next) => {
   const { category, comment } = req.body;
@@ -41,5 +40,3 @@ export const getFeedbackSummary = async (req, res, next) => {
     next(err);
   }
 };
-
-
