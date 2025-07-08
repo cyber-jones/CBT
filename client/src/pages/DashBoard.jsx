@@ -23,17 +23,17 @@ const DashBoard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-blue-600 text-xl font-semibold">
-            Total Patients
+            Total Students
           </h2>
           <p className="text-4xl font-bold">{patients.length}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
-          <h2 className="text-green-600 text-xl font-semibold">Appointments</h2>
+          <h2 className="text-green-600 text-xl font-semibold">Total Lecturers</h2>
           <p className="text-4xl font-bold">{appointments.length}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-purple-600 text-xl font-semibold">
-            Activity Logs
+            Total Exams
           </h2>
           <p className="text-4xl font-bold">{logs.length}</p>
         </div>
