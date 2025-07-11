@@ -1,6 +1,6 @@
 import { useState } from "react";
 import StudentLogin from "../components/login/StudentLogin";
-import StaffLogin from "../components/login/staffLogin";
+import StaffLogin from "../components/login/StaffLogin";
 
 const Login = () => {
   const [user, setUser] = useState("student");
