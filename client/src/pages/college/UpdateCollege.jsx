@@ -1,7 +1,10 @@
 import { useState } from "react";
 
 const UpdateCollege = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    code: "",
+    name: ""
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -25,17 +25,17 @@ const DashBoard = () => {
           <h2 className="text-blue-600 text-xl font-semibold">
             Total Students
           </h2>
-          <p className="text-4xl font-bold">{patients.length}</p>
+          <p className="text-4xl font-bold text-black">{patients.length}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-green-600 text-xl font-semibold">Total Lecturers</h2>
-          <p className="text-4xl font-bold">{appointments.length}</p>
+          <p className="text-4xl font-bold text-black">{appointments.length}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-purple-600 text-xl font-semibold">
             Total Exams
           </h2>
-          <p className="text-4xl font-bold">{logs.length}</p>
+          <p className="text-4xl font-bold text-black">{logs.length}</p>
         </div>
       </div>
     </>

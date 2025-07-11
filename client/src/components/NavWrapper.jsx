@@ -20,9 +20,29 @@ const navItems = [
     icon: <i className="bi bi-layers h-5 w-5"></i>,
   },
   {
+    id: cbt_url.students,
+    label: "Students",
+    icon: <i className="bi bi-people h-5 w-5"></i>,
+  },
+  {
+    id: cbt_url.staffs,
+    label: "Staffs",
+    icon: <i className="bi bi-people h-5 w-5"></i>,
+  },
+  {
     id: cbt_url.courses,
     label: "Courses",
     icon: <i className="bi bi-journals h-5 w-5"></i>,
+  },
+  {
+    id: cbt_url.exams,
+    label: "Exams",
+    icon: <i className="bi bi-journal-text h-5 w-5"></i>,
+  },
+  {
+    id: cbt_url.examResult,
+    label: "Results",
+    icon: <i className="bi bi-journal-text h-5 w-5"></i>,
   },
   {
     id: cbt_url.profile,

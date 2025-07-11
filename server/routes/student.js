@@ -15,3 +15,4 @@ router.post("/", auth([ROLES[0]]), createStudent);
 router.get("/deactivate-account", auth([ROLES[0]]), deactivateStudentAccount);
 
 export default router;
+        

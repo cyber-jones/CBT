@@ -4,7 +4,7 @@ import User from "../models/User.js";
 import { StaffValidator } from "../validator/validateSchema.js";
 
 export const createStaff = async (req, res, next) => {
-  const { password, role, ...data } = req.body;
+  const { password, role, courseTaken, ...data } = req.body;
   const { error, value } = StaffValidator.validate(data);
 
   if (error)
@@ -18,7 +18,11 @@ export const createStaff = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ password: hashedPassword, idNumber: value.idNumber });
     const staff = new Staff({ user: user._id, idNumber, ...value });
+
     user.roles.push(role);
+    
+    if (courseTaken) staff.coursesTaken.push(courseTaken);
+
     await user.save();
     await staff.save();
 
@@ -34,6 +38,18 @@ export const getStaffs = async (req, res, next) => {
   try {
     const staffs = await Staff.find().sort({ createdAt: -1 });
     res.status(200).json({ success: true, staffs });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+export const getStaff = async (req, res, next) => {
+  try {
+    const student = await Staff.findById(req.params.id).sort({
+      createdAt: -1,
+    });
+    res.status(200).json({ success: true, student });
   } catch (err) {
     next(err);
   }

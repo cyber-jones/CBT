@@ -22,8 +22,7 @@ const Colleges = () => {
         <table className="w-full text-left text-[10px] md:text-sm">
           <thead className="bg-green-400 text-gray-700">
             <tr>
-              <th className="p-3 hidden lg:block">Course Code</th>
-              <th className="p-3 block lg:hidden">Code</th>
+              <th className="p-3">Code</th>
               <th className="p-3">Name</th>
             </tr>
           </thead>

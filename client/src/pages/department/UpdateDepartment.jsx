@@ -10,7 +10,7 @@ const UpdateDepartment = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Department Updateed:", formData);
+    console.log("Department Updated:", formData);
     // Add your submission logic here (API call, reset form, etc.)
   };
 
@@ -32,7 +32,7 @@ const UpdateDepartment = () => {
               type="text"
               id="code"
               name="code"
-              value={formData.code}
+              value={formData?.code}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -50,7 +50,7 @@ const UpdateDepartment = () => {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
+              value={formData?.name}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -68,7 +68,7 @@ const UpdateDepartment = () => {
               type="text"
               id="college"
               name="college"
-              value={formData.college}
+              value={formData?.college}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"

@@ -1,6 +1,12 @@
-import React from "react";
+import { cbt_url } from "../utils/SD";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    navigate(cbt_url.login);
+  }
   return (
     <div className="navbar shadow-sm bg-green-800">
       <div className="flex-1">
@@ -30,7 +36,7 @@ const Header = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
+              <a onClick={() => navigate(cbt_url.profile)} className="justify-between">
                 Profile
                 <span className="badge">New</span>
               </a>
@@ -38,7 +44,7 @@ const Header = () => {
             <li>
               <a>Settings</a>
             </li>
-            <li>
+            <li onClick={handleLogOut}>
               <a>Logout</a>
             </li>
           </ul>
