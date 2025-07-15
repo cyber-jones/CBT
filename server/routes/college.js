@@ -11,8 +11,8 @@ import {
 import { ROLES } from "../utils/SD.js";
 
 router.post("/", auth([ROLES[0]]), createCollege);
-router.get("/", auth([ROLES]), getColleges);
-router.get("/:id", auth([ROLES]), getCollege);
+router.get("/", auth([ROLES[0], ROLES[1]]), getColleges);
+router.get("/:id", auth([ROLES[0], ROLES[1]]), getCollege);
 router.put("/:id", auth([ROLES[0]]), updateCollege);
 router.delete("/:id", auth([ROLES[0]]), deleteCollege);
 

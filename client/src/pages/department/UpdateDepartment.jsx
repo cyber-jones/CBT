@@ -1,22 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useDepartment from "../../hooks/useDepartment";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { cbt_url } from "../../utils/SD";
 
 const UpdateDepartment = () => {
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
+  const { loading: loadingDepartment, departments: department } =
+    useDepartment(id);
+
+  useEffect(() => {
+    if (!loadingDepartment && department) setFormData(department);
+  }, [loadingDepartment, department]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Department Updated:", formData);
-    // Add your submission logic here (API call, reset form, etc.)
+    setLoading(true);
+    try {
+      const res = await axiosPrivate.put("/department/" + id, formData);
+
+      if (res.status !== 205)
+        return toast.error(res.data?.message || res.statusText);
+
+      toast.success(res.data?.message || res.statusText);
+      navigate(cbt_url.departments + "/" + id);
+    } catch (err) {
+      toast.error(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
+      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
         <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
           Update Department
         </h1>
@@ -24,7 +51,7 @@ const UpdateDepartment = () => {
           <div>
             <label
               htmlFor="code"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Department Code
             </label>
@@ -42,7 +69,7 @@ const UpdateDepartment = () => {
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Department Name
             </label>
@@ -60,7 +87,7 @@ const UpdateDepartment = () => {
           <div>
             <label
               htmlFor="college"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               College
             </label>
@@ -81,7 +108,7 @@ const UpdateDepartment = () => {
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-semibold"
           >
-            Update Department
+            {loading ? "..." : "Update Department"}
           </button>
         </form>
       </div>

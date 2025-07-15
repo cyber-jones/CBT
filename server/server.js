@@ -23,8 +23,8 @@ const app = express();
 const PORT = process.env.PORT || 9000;
 
 // Middleware
-app.use(cors(corsOptions));
 app.use(credentials);
+app.use(cors(corsOptions));
 app.use(helment());
 app.use(express.json());
 const URI = process.env.MONGOOSE_DEV_URI;

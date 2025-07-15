@@ -3,6 +3,6 @@ import { getRefresh } from "../controllers/refresh.js";
 const router = express.Router();
 
 
-router.post("/refresh", getRefresh);
+router.get("/refresh", getRefresh);
 
 export default router;

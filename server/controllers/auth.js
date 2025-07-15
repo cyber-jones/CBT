@@ -1,22 +1,34 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
-
-
-
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
+import { LoginValidator } from "../validator/validateSchema.js";
+import { ROLES } from "../utils/SD.js";
+import Student from "../models/Student.js";
+import Staff from "../models/Staff.js";
 
 export const login = async (req, res, next) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+  const { error, value } = LoginValidator.validate(req.body);
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
+  if (error)
+    return res.status(400).json({ success: false, message: error.message });
+  try {
+    const authUser = await User.findOne({ idNumber: value.idNumber });
+    if (!authUser)
+      return res
+        .status(400)
+        .json({ message: "Invalid Matirc No or ID number" });
+
+    const isMatch = await bcrypt.compare(value.password, authUser.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid password" });
+
+    let user = null;
+    if (authUser.role == ROLES[2])
+      user = await Student.findById(authUser._id);
+    else
+      user = await Staff.findById(authUser._id);
 
     const accessToken = jwt.sign(
-      { id: user._id, roles: user.roles, idNumber: user.idNumber },
+      { id: authUser._id, role: authUser.role, idNumber: authUser.idNumber },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -24,7 +36,7 @@ export const login = async (req, res, next) => {
     );
 
     const token = jwt.sign(
-      { id: user._id, roles: user.roles, idNumber: user.idNumber },
+      { id: authUser._id, role: authUser.role, idNumber: authUser.idNumber },
       process.env.JWT_SECRET,
       {
         expiresIn: "1d",
@@ -38,11 +50,11 @@ export const login = async (req, res, next) => {
       maxAge: 1000 * 60 * 60 * 24 * 7,
     };
 
-    user.token = token;
-    await user.save();
+    authUser.token = token;
+    await authUser.save();
 
     res.cookie("jwt", token, cookieOpt);
-    res.json({ success: true, accessToken, user });
+    res.json({ success: true, accessToken, authUser, user });
   } catch (err) {
     next(err);
   }

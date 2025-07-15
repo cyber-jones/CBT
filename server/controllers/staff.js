@@ -2,26 +2,28 @@ import Staff from "../models/Staff.js";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { StaffValidator } from "../validator/validateSchema.js";
+import { ROLES } from "../utils/SD.js";
+import { lecturers } from "./auth.js";
 
 export const createStaff = async (req, res, next) => {
-  const { password, role, courseTaken, ...data } = req.body;
-  const { error, value } = StaffValidator.validate(data);
+  const { error, value } = StaffValidator.validate(req.body);
+  const { password, role, ...data } = value;
 
   if (error)
     return res.status(400).json({ success: false, message: error.message });
 
   try {
-    const existingUser = await User.findOne({ idNumber });
+    const existingUser = await User.findOne({ idNumber: value.idNumber });
     if (existingUser)
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exist" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ password: hashedPassword, idNumber: value.idNumber });
-    const staff = new Staff({ user: user._id, idNumber, ...value });
-
-    user.roles.push(role);
-    
-    if (courseTaken) staff.coursesTaken.push(courseTaken);
+    const user = new User({
+      password: hashedPassword,
+      idNumber: value.idNumber,
+      role: role,
+    });
+    const staff = new Staff({ user: user._id, ...data });
 
     await user.save();
     await staff.save();
@@ -36,19 +38,35 @@ export const createStaff = async (req, res, next) => {
 
 export const getStaffs = async (req, res, next) => {
   try {
-    const staffs = await Staff.find().sort({ createdAt: -1 });
+    const staffs = await Staff.find()
+      .lean()
+      .populate("user")
+      .sort({ createdAt: -1 });
     res.status(200).json({ success: true, staffs });
   } catch (err) {
     next(err);
   }
 };
 
+export const getLecturers = async (req, res, next) => {
+  try {
+    const lecturers = (
+      await Staff.find().lean().populate("user").sort({ createdAt: -1 })
+    ).filter((lecturer) => lecturer.user.role === ROLES[1]);
+    res.status(200).json({ success: true, lecturers });
+  } catch (err) {
+    next(err);
+  }
+};
 
 export const getStaff = async (req, res, next) => {
   try {
-    const student = await Staff.findById(req.params.id).sort({
-      createdAt: -1,
-    });
+    const student = await Staff.findById(req.params.id)
+      .lean()
+      .populate("user")
+      .sort({
+        createdAt: -1,
+      });
     res.status(200).json({ success: true, student });
   } catch (err) {
     next(err);
@@ -75,13 +93,11 @@ export const deactivateStffAccount = async (req, res, next) => {
     await Staff.findByIdAndUpdate(req.params.id, {
       $set: { deactivated: true },
     });
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Account deactivated successfully",
-        staff,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Account deactivated successfully",
+      staff,
+    });
   } catch (err) {
     next(err);
   }

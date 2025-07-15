@@ -1,4 +1,4 @@
-export const server_dev_url = "http://localhost:9000/apai";
+export const server_dev_url = "http://localhost:9000/api";
 export const Roles = { ADMIN: "Admin", LECTURER: "Lecturer", STUDENT: "Student" };
 
 export const cbt_url = {
@@ -10,7 +10,9 @@ export const cbt_url = {
     exams: "/exams",
     exam: "/exam",
     students: "/students",
+    student: "/student",
     staffs: "/staffs",
+    staff: "/staff",
     startExam: "/exam/start",
     submittedExam: "/exam/submitted",
     studentExams: "/student/exams",

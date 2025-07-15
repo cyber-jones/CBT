@@ -22,7 +22,10 @@ export const createDepartment = async (req, res, next) => {
 
 export const getDepartments = async (req, res, next) => {
   try {
-    const departments = await Department.find().sort({ createdAt: -1 });
+    const departments = await Department.find()
+      .lean()
+      .populate("college")
+      .sort({ createdAt: -1 });
     res.status(200).json({ success: true, departments });
   } catch (err) {
     next(err);
@@ -31,9 +34,12 @@ export const getDepartments = async (req, res, next) => {
 
 export const getDepartment = async (req, res, next) => {
   try {
-    const department = await Department.findById(req.params.id).sort({
-      createdAt: -1,
-    });
+    const department = await Department.findById(req.params.id)
+      .lean()
+      .populate("college")
+      .sort({
+        createdAt: -1,
+      });
     res.status(200).json({ success: true, department });
   } catch (err) {
     next(err);

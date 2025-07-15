@@ -12,9 +12,9 @@ const useRefresh = () => {
     try {
         let res = null;
         if (authUser?.roles.includes(Roles.LECTURER))
-            res = await axiosPrivate.get("/staff");
+            res = await axiosPrivate.get("/staff/"+authUser?.idNumber);
         else 
-            res = await axiosPrivate.get("/student");
+            res = await axiosPrivate.get("/student/"+authUser?.idNumber);
 
       if (res.status !== 200)
         return toast.error(res.data?.message || res.statusText);

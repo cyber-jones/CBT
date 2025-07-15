@@ -22,7 +22,7 @@ export const createCollege = async (req, res, next) => {
 
 export const getColleges = async (req, res, next) => {
   try {
-    const colleges = await College.find().sort({ createdAt: -1 });
+    const colleges = await College.find().lean().sort({ createdAt: -1 });
     res.status(200).json({ success: true, colleges });
   } catch (err) {
     next(err);
@@ -31,7 +31,7 @@ export const getColleges = async (req, res, next) => {
 
 export const getCollege = async (req, res, next) => {
   try {
-    const college = await College.findById(req.params.id).sort({
+    const college = await College.findById(req.params.id).lean().sort({
       createdAt: -1,
     });
     res.status(200).json({ success: true, college });

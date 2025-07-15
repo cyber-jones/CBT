@@ -10,9 +10,9 @@ const auth = (roles = []) => {
       req.user = decoded;
 
       const requiredRoles = roles;
-        const isValid = decoded.roles.map(role => requiredRoles.includes(role)).find(result => result === true);
+        const isValid = requiredRoles.includes(decoded.role);
 
-      if (roles.length && !isValid) {
+      if (requiredRoles.length > 0 && !isValid) {
         return res.status(403).json({ message: 'Access denied' });
       }
       

@@ -21,7 +21,12 @@ export const createCourse = async (req, res, next) => {
 
 export const getCourses = async (req, res, next) => {
   try {
-    const courses = await Course.find().sort({ createdAt: -1 });
+    const courses = await Course.find()
+      .lean()
+      .populate("department")
+      .populate("college")
+      .populate("lecturer")
+      .sort({ createdAt: -1 });
     res.status(200).json({ success: true, courses });
   } catch (err) {
     next(err);
@@ -30,7 +35,12 @@ export const getCourses = async (req, res, next) => {
 
 export const getCourse = async (req, res, next) => {
   try {
-    const course = await Course.findById(req.params.id).sort({ createdAt: -1 });
+    const course = await Course.findById(req.params.id)
+      .lean()
+      .populate("department")
+      .populate("college")
+      .populate("lecturer")
+      .sort({ createdAt: -1 });
     res.status(200).json({ success: true, course });
   } catch (err) {
     next(err);

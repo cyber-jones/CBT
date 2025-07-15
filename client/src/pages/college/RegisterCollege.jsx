@@ -1,22 +1,41 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useNavigate } from "react-router-dom";
+import { cbt_url } from "../../utils/SD";
 
 const RegisterCollege = () => {
   const [formData, setFormData] = useState({});
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("College Registered:", formData);
-    // Add your submission logic here (API call, reset form, etc.)
+    setLoading(true);
+    try {
+      const res = await axiosPrivate.post("/college", formData);
+
+      if (res.status !== 201)
+        return toast.error(res.data?.message || res.statusText);
+
+      toast.success(res.data?.message || res.statusText);
+      navigate(cbt_url.colleges);
+    } catch (err) {
+      toast.error(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
+      <div className="max-w-xl mx-auto bg-white text-gray-700 p-8 rounded-lg shadow">
         <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
           Register New College
         </h1>
@@ -32,7 +51,6 @@ const RegisterCollege = () => {
               type="text"
               id="code"
               name="code"
-              value={formData.code}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -50,7 +68,6 @@ const RegisterCollege = () => {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -58,10 +75,11 @@ const RegisterCollege = () => {
           </div>
 
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-semibold"
           >
-            Register College
+            {loading ? "..." : "Register College"}
           </button>
         </form>
       </div>

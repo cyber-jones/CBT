@@ -1,19 +1,21 @@
-import axios from "../data/axiosConfig";
+import axiosConfig from "../data/axiosConfig";
 import useAppContext from "./useAppContext";
 import { toast } from "react-toastify";
 
 const useRefresh = () => {
-  const { setAtuhUser } = useAppContext();
+  const { setAuthUser, setUser, setToken } = useAppContext();
 
   const fetchAuthUser = async () => {
     try {
-      const res = await axios.get("/user");
+      const res = await axiosConfig.get("/refresh");
 
       if (res.status !== 200)
         return toast.error(res.data?.message || res.statusText);
 
-      setAtuhUser(res.data?.user);
-      let accessToken = res.data?.user.accessToken;
+      setAuthUser(res.data?.authUser);
+      setUser(res.data?.user);
+      setToken(res.data?.accessToken);
+      let accessToken = res.data?.accessToken;
       return accessToken;
     } catch (err) {
       toast.error(err.response?.data?.message || err.message);
