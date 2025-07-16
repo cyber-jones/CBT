@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { StaffValidator } from "../validator/validateSchema.js";
 import { ROLES } from "../utils/SD.js";
-import { lecturers } from "./auth.js";
+
 
 export const createStaff = async (req, res, next) => {
   const { error, value } = StaffValidator.validate(req.body);

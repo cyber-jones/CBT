@@ -29,7 +29,6 @@ const RegisterStaff = () => {
       toast.success(res.data?.message || res.statusText);
       navigate(cbt_url.staffs);
     } catch (err) {
-      console.log(err);
       toast.error(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
@@ -225,6 +224,7 @@ const RegisterStaff = () => {
           </div>
 
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-semibold"
           >

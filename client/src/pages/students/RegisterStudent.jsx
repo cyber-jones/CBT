@@ -4,12 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { cbt_url } from "../../utils/SD";
 import { toast } from "react-toastify";
 import { level } from "../../data/static";
+import useDepartment from "../../hooks/useDepartment";
+import useCollege from "../../hooks/useCollege";
 
 const RegisterStudent = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
+  const { loading: loadingDepartment, departments } = useDepartment();
+  const { loading: loadingCollege, colleges } = useCollege();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,13 +25,12 @@ const RegisterStudent = () => {
     try {
       const res = await axiosPrivate.post("/student", formData);
 
-      if (res.status !== 200)
+      if (res.status !== 201)
         return toast.error(res.data?.message || res.statusText);
 
       toast.success(res.data?.message || res.statusText);
       navigate(cbt_url.students);
     } catch (err) {
-      console.log(err);
       toast.error(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
@@ -159,9 +162,17 @@ const RegisterStudent = () => {
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
-              <option className="text-black" value={"100"}>
-                100
-              </option>
+              <option></option>
+              <option value="General">General</option>
+              {!loadingDepartment && departments ? (
+                departments.map((department, index) => (
+                  <option key={index} value={department._id}>
+                    {department.code}
+                  </option>
+                ))
+              ) : (
+                <option>Loading...</option>
+              )}
             </select>
           </div>
 
@@ -177,9 +188,17 @@ const RegisterStudent = () => {
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
-              <option className="text-black" value={"100"}>
-                100
-              </option>
+              <option></option>
+              <option value="General">General</option>
+              {!loadingCollege && colleges ? (
+                colleges.map((college, index) => (
+                  <option key={index} value={college._id}>
+                    {college.code}
+                  </option>
+                ))
+              ) : (
+                <option>Loading...</option>
+              )}
             </select>
           </div>
 

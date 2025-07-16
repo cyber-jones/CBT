@@ -1,17 +1,23 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { cbt_url } from "../../utils/SD";
 import useAppContext from "../../hooks/useAppContext";
+import { toast } from "react-toastify";
 
 const IsAuth = ({ roles }) => {
   const { authUser, token } = useAppContext();
   const location = useLocation();
-  const isAuth = authUser && roles.includes(authUser?.role);
+  const isAuth = authUser?.roles && roles.includes(authUser?.role);
+  const navigate = useNavigate();
 
-  return roles.length > 0  ? (
+  const handleRedirect = () => {
+    toast.error("Unauthorized!");
+    navigate(cbt_url.dashboard);
+  }
+  return roles.length > 0 ? (
     isAuth ? (
       <Outlet />
     ) : (
-      <Navigate to={cbt_url.login} state={{ from: location }} />
+      handleRedirect()
     )
   ) : authUser !== null && token !== null ? (
     <Outlet />

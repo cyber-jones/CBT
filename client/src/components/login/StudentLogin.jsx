@@ -1,4 +1,4 @@
-const StudentLogin = ({ handleChange }) => {
+const StudentLogin = ({ handleChange, loading }) => {
   return (
     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
       <legend className="fieldset-legend">Student Login</legend>
@@ -23,7 +23,7 @@ const StudentLogin = ({ handleChange }) => {
         onChange={handleChange}
       />
 
-      <button className="btn btn-success mt-4">Login</button>
+      <button disabled={loading} className="btn btn-success mt-4">{ loading ? "..." :"Login"}</button>
     </fieldset>
   );
 };

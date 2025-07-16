@@ -11,6 +11,7 @@ const Login = () => {
   const { setAuthUser, setUser, setToken } = useAppContext();
   const [selectedUser, setSelectedUser] = useState("student");
   const [formData, setFormData] = useState();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,8 +23,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      let res = await axiosConfig.post("/auth/login", formData);
+      let res = await axiosConfig.post("/auth/login", {...formData, selectedUser});
 
       if (res.status !== 200)
         return toast.error(res.data?.message || res.statusText);
@@ -36,6 +38,8 @@ const Login = () => {
     } catch (err) {
       console.log(err)
       toast.error(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -86,9 +90,9 @@ const Login = () => {
           </div>
           <form onSubmit={handleSubmit}>
             {selectedUser == "student" ? (
-              <StudentLogin handleChange={handleChange} />
+              <StudentLogin handleChange={handleChange} loading={loading} />
             ) : (
-              <StaffLogin handleChange={handleChange} />
+              <StaffLogin handleChange={handleChange} loading={loading} />
             )}
           </form>
         </div>

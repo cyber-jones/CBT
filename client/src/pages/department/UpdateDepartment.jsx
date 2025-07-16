@@ -105,6 +105,7 @@ const UpdateDepartment = () => {
           </div>
 
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-semibold"
           >

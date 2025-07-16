@@ -1,17 +1,41 @@
 import { useState } from "react";
+import { level } from "../../data/static";
+import { useNavigate, useParams } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useDepartment from "../../hooks/useDepartment";
+import useCollege from "../../hooks/useCollege";
+import { cbt_url } from "../../utils/SD";
+import { toast } from "react-toastify";
 
 const UpdateStudent = () => {
   const [formData, setFormData] = useState({});
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const [loading, setLoading] = useState(false);
+  const { loading: loadingDepartment, departments } = useDepartment();
+  const { loading: loadingCollege, colleges } = useCollege();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Student Updateed:", formData);
-    // Add your submission logic here (API call, reset form, etc.)
+    try {
+      const res = await axiosPrivate.put("/student", formData);
+
+      if (res.status !== 201)
+        return toast.error(res.data?.message || res.statusText);
+
+      toast.success(res.data?.message || res.statusText);
+      navigate(cbt_url.student + "/" + id);
+    } catch (err) {
+      toast.error(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -130,37 +154,86 @@ const UpdateStudent = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="level"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="level" className="block text-sm font-medium">
               Level
             </label>
             <select
               type="text"
               id="level"
               name="level"
-              value={formData?.level}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
-              <option value={"100"}>100</option>
-              <option value={"200"}>200</option>
-              <option value={"300"}>300</option>
-              <option value={"400"}>400</option>
-              <option value={"500"}>500</option>
+              <option></option>
+              {level &&
+                level.map((level) => (
+                  <option key={level.name} value={level.name}>
+                    {level.name}
+                  </option>
+                ))}
             </select>
           </div>
 
+          <div>
+            <label htmlFor="department" className="block text-sm font-medium">
+              Department
+            </label>
+            <select
+              type="text"
+              id="department"
+              name="department"
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option></option>
+              <option value="General">General</option>
+              {!loadingDepartment && departments ? (
+                departments.map((department, index) => (
+                  <option key={index} value={department._id}>
+                    {department.code}
+                  </option>
+                ))
+              ) : (
+                <option>Loading...</option>
+              )}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="college" className="block text-sm font-medium">
+              College
+            </label>
+            <select
+              type="text"
+              id="college"
+              name="college"
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option></option>
+              <option value="General">General</option>
+              {!loadingCollege && colleges ? (
+                colleges.map((college, index) => (
+                  <option key={index} value={college._id}>
+                    {college.code}
+                  </option>
+                ))
+              ) : (
+                <option>Loading...</option>
+              )}
+            </select>
+          </div>
           <button
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-semibold"
           >
-            Update Student
+            { loading ? "..." : "Update Student" }
           </button>
         </form>
-      </div>
+      </div>3
     </div>
   );
 };

@@ -1,17 +1,38 @@
 import { useState } from "react";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useNavigate, useParams } from "react-router-dom";
+import useCollege from "../../hooks/useCollege";
+import { toast } from "react-toastify";
+import { cbt_url } from "../../utils/SD";
 
 const UpdateStaff = () => {
   const [formData, setFormData] = useState({});
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const [loading, setLoading] = useState(false);
+  const { loading: loadingCollege, colleges } = useCollege();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Staff Updated:", formData);
-    // Add your submission logic here (API call, reset form, etc.)
+    try {
+      const res = await axiosPrivate.put("/staff/" + id, formData);
+
+      if (res.status !== 205)
+        return toast.error(res.data?.message || res.statusText);
+
+      toast.success(res.data?.message || res.statusText);
+      navigate(cbt_url.staff + "/" + id);
+    } catch (err) {
+      toast.error(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -129,11 +150,73 @@ const UpdateStaff = () => {
             />
           </div>
 
+          <div>
+            <label htmlFor="college" className="block text-sm font-medium">
+              College
+            </label>
+            <select
+              type="text"
+              id="college"
+              name="college"
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option></option>
+              {!loadingCollege && colleges ? (
+                colleges.map((college, index) => (
+                  <option key={index} value={college._id}>
+                    {college.code}
+                  </option>
+                ))
+              ) : (
+                <option>Loading...</option>
+              )}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="gender" className="block text-sm font-medium">
+              Gender
+            </label>
+            <select
+              type="text"
+              id="gender"
+              name="gender"
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option></option>
+              <option className="Male">Male</option>
+              <option className="Female">Female</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="role" className="block text-sm font-medium">
+              Role
+            </label>
+            <select
+              type="text"
+              id="role"
+              name="role"
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option></option>
+              <option className="Admin">Admin</option>
+              <option className="Lecturer">Lecturer</option>
+            </select>
+          </div>
+
           <button
+            disabled={loading}
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md font-semibold"
           >
-            Update Staff
+            { loading ? "..." : "Update Staff"}
           </button>
         </form>
       </div>

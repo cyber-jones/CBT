@@ -5,7 +5,7 @@ import helment from "helmet";
 import connectDb from "./Data/connect.js";
 import authRoutes from "./routes/auth.js";
 import examRoutes from "./routes/exam.js";
-import feedbackRoutes from "./routes/feedback.js";
+import feedbackRoutes from "./routes/feedback.js"; 
 import studentRoutes from "./routes/student.js";
 import staffRoutes from "./routes/staff.js";
 import courseRoutes from "./routes/course.js";
@@ -16,6 +16,7 @@ import __dirname from "./config/directoryConfig.js";
 import errorHandler from "./config/errorHandler.js";
 import { corsOptions } from "./config/corsOption.js";
 import { credentials } from "./middlewares/corsCredentials.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -27,7 +28,8 @@ app.use(credentials);
 app.use(cors(corsOptions));
 app.use(helment());
 app.use(express.json());
-const URI = process.env.MONGOOSE_DEV_URI;
+app.use(cookieParser());
+const URI = process.env.MONGOOSE_PRODUCTION_URI;
 
 // Connect to MongoDB
 connectDb(URI);

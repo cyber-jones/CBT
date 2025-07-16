@@ -1,16 +1,33 @@
+import { toast } from "react-toastify";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { cbt_url } from "../utils/SD";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAppContext from "../hooks/useAppContext";
 
 const Header = () => {
+  const { setAuthUser, setUser, setToken } = useAppContext();
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
-  const handleLogOut = () => {
-    navigate(cbt_url.login);
-  }
+  const handleLogOut = async () => {
+     try {
+          const res = await axiosPrivate.get("/auth/logout");
+    
+          if (res.status !== 204)
+            return toast.error(res.data?.message || res.statusText);
+          
+          setAuthUser(null);
+          setUser(null);
+          setToken(null);
+          navigate(cbt_url.login);
+        } catch (err) {
+          toast.error(err.response?.data?.message || err.message);
+        }
+      }
   return (
     <div className="navbar shadow-sm bg-green-800">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">CBT</a>
+        <Link to={cbt_url.home} className="btn btn-ghost text-xl">CBT</Link>
       </div>
       <div className="flex gap-2">
         <input
