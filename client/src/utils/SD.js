@@ -1,4 +1,5 @@
 export const server_dev_url = "http://localhost:9000/api";
+export const server_production_url = "https://cbt-api-dl3h.onrender.com/api";
 export const Roles = { ADMIN: "Admin", LECTURER: "Lecturer", STUDENT: "Student" };
 
 export const cbt_url = {
