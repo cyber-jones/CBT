@@ -4,6 +4,9 @@ import { cbt_url, Roles } from "../../utils/SD";
 import useCourse from "../../hooks/useCourse";
 import useAppContext from "../../hooks/useAppContext";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { useState } from "react";
+import useExam from "../../hooks/useExam";
 
 // const course = {
 //   code: "BIO101",
@@ -19,11 +22,19 @@ import { toast } from "react-toastify";
 
 const DetailedCourse = () => {
   const navigate = useNavigate();
+  const [isTrue, setIsTrue] = useState(false);
   const { authUser } = useAppContext();
   const { id } = useParams();
   const { courses: course } = useCourse(id);
+  const { loading: loadingExam, exams: exam } = useExam(null, null, null, id);
   const isLecturer = authUser.role === Roles.LECTURER;
   const isAdmin = authUser.role === Roles.ADMIN;
+  console.log(exam);
+  useEffect(() => {
+    if (!loadingExam && exam) {
+      setIsTrue(exam.course._id === id);
+    }
+  }, [loadingExam, exam, id]);
 
   const handleAction = () => {
     alert("Done!");
@@ -45,8 +56,8 @@ const DetailedCourse = () => {
           <div>
             <h2 className="text-lg font-semibold text-gray-700">Lecturer</h2>
             <p className="text-gray-800">
-              {course.lecturer.title} {course?.lecturer.firstName} {course?.lecturer.lastName}{" "}
-              {course?.lecturer.middleName}
+              {course?.lecturer.title} {course?.lecturer.firstName}{" "}
+              {course?.lecturer.lastName} {course?.lecturer.middleName}
             </p>
           </div>
 
@@ -70,13 +81,13 @@ const DetailedCourse = () => {
           <div className="flex gap-3">
             <button
               hidden={!isAdmin}
-              onClick={() => navigate(cbt_url.updateCourse + "/" + course?._id)}
+              onClick={() => navigate(cbt_url.updateCourse+"/"+course?._id)}
               className="btn btn-success"
             >
               Update
             </button>
             <button
-              hidden={!isLecturer}
+              hidden={!isLecturer || isTrue}
               onClick={handleSetExam}
               className="btn btn-success"
             >

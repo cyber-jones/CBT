@@ -57,6 +57,19 @@ export const getStudentExams = async (req, res, next) => {
   }
 };
 
+export const getCourseExam = async (req, res, next) => {
+  try {
+    const exam = await Exam.findOne({ course: req.params.id })
+      .lean()
+      .populate("course")
+      .populate("lecturer");
+
+    res.status(200).json({ success: true, exam });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getExam = async (req, res, next) => {
   try {
     const exam = await Exam.findById(req.params.id)
@@ -91,7 +104,7 @@ export const toggleExamStart = async (req, res, next) => {
     else exam.start = true;
 
     await exam.save();
-    
+
     let message = null;
     if (exam.start) message = "Exam opened for students";
     else message = "Exam closed!";

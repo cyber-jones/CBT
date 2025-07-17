@@ -15,6 +15,7 @@ import {
   toggleExamStart,
   DeleteExam,
   updateExam,
+  getCourseExam,
 } from "../controllers/exam.js";
 import { ROLES } from "../utils/SD.js";
 
@@ -24,6 +25,7 @@ router.put("/", auth([ROLES[1]]), updateExam);
 router.get("/", auth(ROLES), getAllExams);
 router.get("/lecturer/:id", auth(ROLES), getLecturerExams);
 router.get("/student/:id", auth(ROLES), getStudentExams);
+router.get("/course/:id", auth(ROLES), getCourseExam);
 router.get("/:id", auth(ROLES), getExam);
 router.get("/toggle-start/:id", auth([ROLES[1]]), toggleExamStart);
 router.get("/:id", auth([ROLES[1]]), DeleteExam);
