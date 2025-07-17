@@ -198,7 +198,6 @@ const RegisterCourse = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option value="General">General</option>
               {!loadingCollege && colleges ? (
                 colleges.map((college, index) => (
                   <option key={index} value={college._id}>

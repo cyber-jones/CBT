@@ -3,6 +3,7 @@ import Modal from "../../components/Modal";
 import { cbt_url, Roles } from "../../utils/SD";
 import useCourse from "../../hooks/useCourse";
 import useAppContext from "../../hooks/useAppContext";
+import { toast } from "react-toastify";
 
 // const course = {
 //   code: "BIO101",
@@ -27,20 +28,26 @@ const DetailedCourse = () => {
   const handleAction = () => {
     alert("Done!");
   };
+  const handleSetExam = () => {
+    if (authUser?.canSetExams) navigate(cbt_url.setEaxm + "/" + course?._id);
+    else toast.error("Forbidden: Not permitted to set exams!");
+  };
+
   return (
     <div className="p-6 h-full bg-green-100 font-sans">
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
         <h1 className="text-lg lg:text-3xl font-bold mb-4 text-gray-800">
           {course?.title}
         </h1>
-        <p className="text-sm text-gray-500 mb-6">
-          Code: {course?.code}
-        </p>
+        <p className="text-sm text-gray-500 mb-6">Code: {course?.code}</p>
 
         <div className="space-y-4">
           <div>
             <h2 className="text-lg font-semibold text-gray-700">Lecturer</h2>
-            <p className="text-gray-800">{course?.lecturer.firstName} {course?.lecturer.lastName} {course?.lecturer.middleName}</p>
+            <p className="text-gray-800">
+              {course.lecturer.title} {course?.lecturer.firstName} {course?.lecturer.lastName}{" "}
+              {course?.lecturer.middleName}
+            </p>
           </div>
 
           <div>
@@ -63,18 +70,14 @@ const DetailedCourse = () => {
           <div className="flex gap-3">
             <button
               hidden={!isAdmin}
-              onClick={() =>
-                navigate(cbt_url.updateCourse + "/" + course?._id)
-              }
+              onClick={() => navigate(cbt_url.updateCourse + "/" + course?._id)}
               className="btn btn-success"
             >
               Update
             </button>
             <button
               hidden={!isLecturer}
-              onClick={() =>
-                navigate(cbt_url.setEaxm + "/" + course?._id)
-              }
+              onClick={handleSetExam}
               className="btn btn-success"
             >
               Set Exam

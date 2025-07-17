@@ -4,26 +4,24 @@ import useAxiosPrivate from "./useAxiosPrivate";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const useStaff = (id = null, lecturers = false) => {
+const useStudent = (id = null) => {
   const axiosPrivate = useAxiosPrivate(); 
   const [loading, setLoading] = useState(false);
-  const [staffs, setStaff] = useState(null);
+  const [students, setStudent] = useState(null);
 
-  const getStaff = async () => {
+  const getStudent = async () => {
     setLoading(true);
     try {
         let res = null;
         if (id)
-            res = await axiosPrivate.get("/staff/"+id);
-        else if (lecturers)
-            res = await axiosPrivate.get("/staff/lecturers");
+            res = await axiosPrivate.get("/student/"+ id);
         else 
-            res = await axiosPrivate.get("/staff");
-        
+            res = await axiosPrivate.get("/student");
+
       if (res.status !== 200)
         return toast.error(res.data?.message || res.statusText);
 
-      setStaff(id ? res.data?.staff : lecturers ? res.data?.lecturers : res.data?.staffs);
+      setStudent(id ? res.data?.student : res.data?.students);
     } catch (err) {
       toast.error(err.response?.data?.message || err.message);
     } finally {
@@ -32,10 +30,10 @@ const useStaff = (id = null, lecturers = false) => {
   };
 
   useEffect(() => {
-    getStaff();
+    getStudent();
   }, []);
 
-  return { loading, staffs };
+  return { loading, students };
 };
 
-export default useStaff;
+export default useStudent;

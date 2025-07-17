@@ -25,7 +25,7 @@ const Departments = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-scroll h-11/12">
+      <div className="bg-white rounded-lg shadow overflow-scroll max-h-11/12">
         {!loading && departments ? (
           <table className="w-full text-left text-[10px] md:text-sm">
             <thead className="bg-green-400 text-gray-700">

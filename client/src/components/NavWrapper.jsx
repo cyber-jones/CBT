@@ -63,7 +63,7 @@ const NavWrapper = ({ children }) => {
     id: cbt_url.examResult,
     label: "Results",
     icon: <i className="bi bi-journal-bookmark h-5 w-5"></i>,
-    hidden: true
+    hidden: [Roles.LECTURER, Roles.STUDENT].includes(authUser.role)
   },
   {
     id: cbt_url.profile,

@@ -9,7 +9,7 @@ export const createStudent = async (req, res, next) => {
 
   if (error)
     return res.status(400).json({ success: false, message: error.message });
-
+  console.log(value);
   try {
     const existingUser = await User.findOne({ idNumber: value.idNumber });
     if (existingUser)
@@ -17,7 +17,7 @@ export const createStudent = async (req, res, next) => {
         .status(400)
         .json({ success: false, message: "User already exists" });
 
-    const hashedPassword = await bcrypt.hash(value.firstName.uppercase(), 10);
+    const hashedPassword = await bcrypt.hash(value.lastName.toUpperCase(), 10);
     const user = new User({
       password: hashedPassword,
       idNumber: value.idNumber,
@@ -26,7 +26,7 @@ export const createStudent = async (req, res, next) => {
     const student = new Student({ user: user._id, ...value });
 
     await user.save();
-    await Student.save();
+    await student.save();
 
     res.status(201).json({
       success: true,
@@ -40,7 +40,12 @@ export const createStudent = async (req, res, next) => {
 
 export const getStudents = async (req, res, next) => {
   try {
-    const students = await Student.find().lean().sort({ createdAt: -1 });
+    const students = await Student.find()
+      .lean()
+      .populate("user")
+      .populate("college")
+      .populate("department")
+      .sort({ createdAt: -1 });
     res.status(200).json({ success: true, students });
   } catch (err) {
     next(err);
@@ -49,9 +54,14 @@ export const getStudents = async (req, res, next) => {
 
 export const getStudent = async (req, res, next) => {
   try {
-    const student = await Student.findById(req.params.id).lean().sort({
-      createdAt: -1,
-    });
+    const student = await Student.findById(req.params.id)
+      .lean()
+      .populate("user")
+      .populate("college")
+      .populate("department")
+      .sort({
+        createdAt: -1,
+      });
     res.status(200).json({ success: true, student });
   } catch (err) {
     next(err);

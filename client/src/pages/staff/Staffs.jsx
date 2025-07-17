@@ -39,7 +39,7 @@ const Staffs = () => {
             <tbody>
               {staffs.map((staff) => (
                 <tr
-                  onClick={() => navigate(cbt_url.staff + "/" + staff._id)}
+                  onClick={() => navigate(cbt_url.staff+"/"+staff._id)}
                   key={staff._id}
                   className="border-b hover:cursor-pointer hover:bg-gray-50"
                 >
@@ -59,7 +59,7 @@ const Staffs = () => {
             </tbody>
           </table>
         ) : (
-          <p>Loading...</p>
+          <p>Loading</p>
         )}
       </div>
     </div>

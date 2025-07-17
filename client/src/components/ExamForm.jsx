@@ -2,6 +2,12 @@ import { examDuration } from "../data/static";
 
 function ExamForm({
   time,
+  instruction,
+  setInstruction,
+  course,
+  totalMark,
+  setTotalMark,
+  loading,
   setTime,
   deleteQuestion,
   questions,
@@ -14,23 +20,43 @@ function ExamForm({
       onSubmit={handleSubmit}
       className="w-full lg:w-10/12 flex flex-col border justify-center items-center gap-7"
     >
-      <div className="text-center">
+      <div className="text-center w-11/12 md:w-10/12 flex flex-col justify-center items-center gap-1">
         <h2 className="text-blue-500 text-lg lg:text-2xl">Create Exam</h2>
         <p className="text-white text-sm lg:text-lg">
-          CPS102: Introduction to programming II
+          {course?.code}: {course?.title}
         </p>
-        <p className="text-red-500 text-sm lg:text-lg">Unit: 2</p>
-        <select
-          className="select"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
+        <p className="text-red-500 text-sm lg:text-lg">Unit: {course?.unit}</p>
+        <div className="grid grid-cols-2 grid-rows-1 w-full md:w-8/12 place-content-center place-items-center">
+          <select
+            className="select"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            required
+          >
+            <option>Set exam duration</option>
+            {examDuration.map((duration) => (
+              <option key={duration.value} value={duration.value}>
+                {duration.name}
+              </option>
+            ))}
+          </select>
+          <input
+            required
+            type="number"
+            value={totalMark}
+            placeholder="Total Mark"
+            className="input"
+            onChange={(e) => setTotalMark(e.target.value)}
+          />
+        </div>
+        <input
           required
-        >
-          <option>Set exam duration</option>
-          { examDuration.map(duration => (
-            <option key={duration.value} value={duration.value}>{duration.name}</option>
-          ))}
-        </select>
+          type="text"
+          value={instruction}
+          placeholder="Exam instruction"
+          className="input w-full lg:w-10/12"
+          onChange={(e) => setInstruction(e.target.value)}
+        />
       </div>
       <div className="w-11/12 lg:w-10/12 flex flex-col gap-5">
         {questions.map((q, index) => (
@@ -85,11 +111,16 @@ function ExamForm({
         ))}
       </div>
       <div className="w-10/12 grid grid-cols-2 grid-rows-1 gap-4 mb-2">
-        <button type="button" className="btn btn-primary" onClick={addQuestion}>
+        <button
+          disabled={loading}
+          type="button"
+          className="btn btn-primary"
+          onClick={addQuestion}
+        >
           Add Question
         </button>
-        <button type="submit" className="btn btn-success">
-          Create Exam
+        <button disabled={loading} type="submit" className="btn btn-success">
+          {loading ? "..." : "Create Exam"}
         </button>
       </div>
     </form>

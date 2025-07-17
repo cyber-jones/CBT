@@ -6,12 +6,14 @@ import {
   getStudent,
   createStudent,
   deactivateStudentAccount,
+  updateStudent,
 } from "../controllers/student.js";
 import { ROLES } from "../utils/SD.js";
 
 router.get("/", auth([ROLES[0], ROLES[1]]), getStudents);
 router.get("/:id", auth([ROLES[0], ROLES[1]]), getStudent);
 router.post("/", auth([ROLES[0]]), createStudent);
+router.put("/", auth([ROLES[0]]), updateStudent);
 router.get("/deactivate-account", auth([ROLES[0]]), deactivateStudentAccount);
 
 export default router;

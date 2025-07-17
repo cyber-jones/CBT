@@ -6,6 +6,8 @@ import useDepartment from "../../hooks/useDepartment";
 import useCollege from "../../hooks/useCollege";
 import { cbt_url } from "../../utils/SD";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import useStudent from "../../hooks/useStudent";
 
 const UpdateStudent = () => {
   const [formData, setFormData] = useState({});
@@ -13,8 +15,13 @@ const UpdateStudent = () => {
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
+  const { loading: loadingStudent, students: student } = useStudent(id);
   const { loading: loadingDepartment, departments } = useDepartment();
   const { loading: loadingCollege, colleges } = useCollege();
+
+    useEffect(() => {
+      if (!loadingStudent && student) setFormData(student);
+    }, [loadingStudent, student]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +37,7 @@ const UpdateStudent = () => {
         return toast.error(res.data?.message || res.statusText);
 
       toast.success(res.data?.message || res.statusText);
-      navigate(cbt_url.student + "/" + id);
+      navigate(cbt_url.student+"/"+ id);
     } catch (err) {
       toast.error(err.response?.data?.message || err.message);
     } finally {
@@ -40,7 +47,7 @@ const UpdateStudent = () => {
 
   return (
     <div className="p-6 h-full bg-green-100 font-sans overflow-y-scroll">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
+      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
         <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
           Update New Student
         </h1>
@@ -48,7 +55,7 @@ const UpdateStudent = () => {
           <div>
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               First Name
             </label>
@@ -66,7 +73,7 @@ const UpdateStudent = () => {
           <div>
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Last Name
             </label>
@@ -84,7 +91,7 @@ const UpdateStudent = () => {
           <div>
             <label
               htmlFor="middleName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Middle Name
             </label>
@@ -102,7 +109,7 @@ const UpdateStudent = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Email
             </label>
@@ -120,7 +127,7 @@ const UpdateStudent = () => {
           <div>
             <label
               htmlFor="dateOfBirth"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Date Of Birth
             </label>
@@ -138,7 +145,7 @@ const UpdateStudent = () => {
           <div>
             <label
               htmlFor="idNumber"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Matric Number
             </label>
@@ -161,6 +168,7 @@ const UpdateStudent = () => {
               type="text"
               id="level"
               name="level"
+              value={formData?.level}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -183,6 +191,7 @@ const UpdateStudent = () => {
               type="text"
               id="department"
               name="department"
+              value={formData?.department?._id}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -209,6 +218,7 @@ const UpdateStudent = () => {
               type="text"
               id="college"
               name="college"
+              value={formData?.college?._id}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"

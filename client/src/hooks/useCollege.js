@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { toast } from "react-toastify";
 import useAxiosPrivate from "./useAxiosPrivate";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const useCollege = (id = null) => {
   const axiosPrivate = useAxiosPrivate(); 
@@ -12,7 +14,7 @@ const useCollege = (id = null) => {
     try {
         let res = null;
         if (id)
-            res = await axiosPrivate.get("/college/"+ id);
+            res = await axiosPrivate.get("/college/"+id);
         else 
             res = await axiosPrivate.get("/college");
 
@@ -27,7 +29,7 @@ const useCollege = (id = null) => {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     getColleges();
   }, []);
 

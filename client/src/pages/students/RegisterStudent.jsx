@@ -129,6 +129,24 @@ const RegisterStudent = () => {
           </div>
 
           <div>
+            <label htmlFor="gender" className="block text-sm font-medium">
+              Gender
+            </label>
+            <select
+              type="text"
+              id="gender"
+              name="gender"
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option></option>
+              <option className="Male">Male</option>
+              <option className="Female">Female</option>
+            </select>
+          </div>
+          
+          <div>
             <label htmlFor="level" className="block text-sm font-medium">
               Level
             </label>
@@ -163,7 +181,6 @@ const RegisterStudent = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option value="General">General</option>
               {!loadingDepartment && departments ? (
                 departments.map((department, index) => (
                   <option key={index} value={department._id}>
@@ -189,7 +206,6 @@ const RegisterStudent = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option value="General">General</option>
               {!loadingCollege && colleges ? (
                 colleges.map((college, index) => (
                   <option key={index} value={college._id}>

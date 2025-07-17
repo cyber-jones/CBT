@@ -23,13 +23,13 @@ const Courses = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-scroll h-11/12">
+      <div className="bg-white rounded-lg shadow overflow-scroll max-h-11/12">
         {!loading && courses ? (
           <table className="w-full text-left text-[10px] md:text-sm">
             <thead className="bg-green-400 text-gray-700">
               <tr>
                 <th className="p-3 md:block hidden">s/n</th>
-                <th className="p-3">Course Code</th>
+                <th className="p-3">Code</th>
                 <th className="p-3">Title</th>
                 <th className="p-3">Lecturer</th>
               </tr>
@@ -48,7 +48,7 @@ const Courses = () => {
                     {course.code}
                   </td>
                   <td className="p-3 text-gray-800">{course.title}</td>
-                  <td className="p-3 text-gray-800">{course.lecturer}</td>
+                  <td className="p-3 text-gray-800">{course.lecturer.title} {course.lecturer.firstName} {course.lecturer.lastName}</td>
                 </tr>
               ))}
             </tbody>

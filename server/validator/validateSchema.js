@@ -24,6 +24,8 @@ export const StudentValidator = Joi.object({
     idNumber: Joi.string().required(),
     level: Joi.string().required(),
     gender: Joi.string().required(),
+    department: Joi.string().required(),
+    college: Joi.string().required(),
     dateOfBirth: Joi.date().required()
 });
 

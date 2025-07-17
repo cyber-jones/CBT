@@ -21,8 +21,8 @@ const Colleges = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-scroll h-11/12">
-        {!loading ? (
+      <div className="bg-white rounded-lg shadow overflow-scroll max-h-11/12">
+        {!loading && colleges ? (
           <table className="w-full text-left text-[10px] md:text-sm">
             <thead className="bg-green-400 text-gray-700">
               <tr>
@@ -31,7 +31,7 @@ const Colleges = () => {
               </tr>
             </thead>
             <tbody>
-              {colleges && colleges.map((college) => (
+              {colleges.map((college) => (
                 <tr
                   onClick={() => navigate(cbt_url.colleges + "/" + college._id)}
                   key={college._id}

@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import useCollege from "../../hooks/useCollege";
 import { toast } from "react-toastify";
 import { cbt_url } from "../../utils/SD";
+import { useEffect } from "react";
+import useStaff from "../../hooks/useStaff";
 
 const UpdateStaff = () => {
   const [formData, setFormData] = useState({});
@@ -11,7 +13,12 @@ const UpdateStaff = () => {
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
+  const { loading: loadingStaff, staffs: staff } = useStaff(id);
   const { loading: loadingCollege, colleges } = useCollege();
+  console.log(staff)
+    useEffect(() => {
+      if (!loadingStaff && staff) setFormData(staff);
+    }, [loadingStaff, staff]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +44,7 @@ const UpdateStaff = () => {
 
   return (
     <div className="p-6 h-full bg-green-100 font-sans overflow-y-scroll">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
+      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
         <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
           Update Staff
         </h1>
@@ -45,7 +52,7 @@ const UpdateStaff = () => {
           <div>
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               First Name
             </label>
@@ -63,7 +70,7 @@ const UpdateStaff = () => {
           <div>
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Last Name
             </label>
@@ -81,7 +88,7 @@ const UpdateStaff = () => {
           <div>
             <label
               htmlFor="middleName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Middle Name
             </label>
@@ -99,7 +106,7 @@ const UpdateStaff = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Email
             </label>
@@ -117,7 +124,7 @@ const UpdateStaff = () => {
           <div>
             <label
               htmlFor="dateOfBirth"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               Date Of Birth
             </label>
@@ -135,7 +142,7 @@ const UpdateStaff = () => {
           <div>
             <label
               htmlFor="idNumber"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               ID Number
             </label>
@@ -158,6 +165,7 @@ const UpdateStaff = () => {
               type="text"
               id="college"
               name="college"
+              value={formData?.college}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -183,6 +191,7 @@ const UpdateStaff = () => {
               type="text"
               id="gender"
               name="gender"
+              value={formData?.gender}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -201,6 +210,7 @@ const UpdateStaff = () => {
               type="text"
               id="role"
               name="role"
+              value={formData?.user.role}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"

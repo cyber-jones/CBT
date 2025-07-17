@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { toast } from "react-toastify";
 import useAxiosPrivate from "./useAxiosPrivate";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const useDepartment = (id = null) => {
   const axiosPrivate = useAxiosPrivate(); 
@@ -27,7 +29,7 @@ const useDepartment = (id = null) => {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     getDepartments();
   }, []);
 

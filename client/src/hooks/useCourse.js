@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { toast } from "react-toastify";
 import useAxiosPrivate from "./useAxiosPrivate";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const useCourse = (id = null, lecturerId = null) => {
   const axiosPrivate = useAxiosPrivate(); 
@@ -29,7 +31,7 @@ const useCourse = (id = null, lecturerId = null) => {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     getCourse();
   }, []);
 

@@ -1,14 +1,15 @@
 import Exam from "../models/Exam.js";
+import Student from "../models/Student.js";
 import Submission from "../models/Submission.js";
+import User from "../models/User.js";
 
 export const createExam = async (req, res, next) => {
-  const { course, questions } = req.body;
   try {
-    const user = await require("../models/User").findById(req.user.id);
+    const user = await User.findById(req.user.id);
     if (!user.canSetExams)
       return res.status(403).json({ message: "No permission to set exams" });
 
-    const exam = new Exam({ course, lecturer: req.user.id, questions });
+    const exam = new Exam({ ...req.body });
     await exam.save();
     res
       .status(201)
@@ -20,7 +21,36 @@ export const createExam = async (req, res, next) => {
 
 export const getAllExams = async (req, res, next) => {
   try {
-    const exams = await Exam.find().populate("course").populate("lecturer");
+    const exams = await Exam.find()
+      .lean()
+      .populate("course")
+      .populate("lecturer");
+    res.status(200).json({ success: true, exams });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getLecturerExams = async (req, res, next) => {
+  try {
+    const exams = await Exam.find({ lecturer: req.params.id })
+      .lean()
+      .populate("course")
+      .populate("lecturer");
+    res.status(200).json({ success: true, exams });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getStudentExams = async (req, res, next) => {
+  try {
+    const exams = await Exam.find({
+      $or: [{ department: req.params }, { department: "None" }],
+    })
+      .lean()
+      .populate("course")
+      .populate("lecturer");
     res.status(200).json({ success: true, exams });
   } catch (err) {
     next(err);
@@ -30,9 +60,53 @@ export const getAllExams = async (req, res, next) => {
 export const getExam = async (req, res, next) => {
   try {
     const exam = await Exam.findById(req.params.id)
+      .lean()
       .populate("course")
       .populate("lecturer");
     res.status(200).json({ success: true, exam });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateExam = async (req, res, next) => {
+  try {
+    const exam = await Exam.findByIdAndUpdate(
+      req.params.id,
+      { $set: { ...req.body } },
+      { new: true }
+    );
+
+    res.status(205).json({ success: true, exam });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const toggleExamStart = async (req, res, next) => {
+  try {
+    const exam = await Exam.findById(req.params.id);
+
+    if (exam.start) exam.start = false;
+    else exam.start = true;
+
+    await exam.save();
+    
+    let message = null;
+    if (exam.start) message = "Exam opened for students";
+    else message = "Exam closed!";
+
+    res.status(200).json({ success: true, message, exam });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const DeleteExam = async (req, res, next) => {
+  try {
+    await Exam.findByIdAndDelete(req.params.id);
+
+    res.sendStatus(204);
   } catch (err) {
     next(err);
   }
@@ -62,6 +136,7 @@ export const getSubmissionLecturer = async (req, res, next) => {
     const submissions = await Submission.find({
       exam: { $in: await Exam.find({ lecturer: req.params.id }) },
     })
+      .lean()
       .populate("exam", "course questions")
       .populate("student", "email");
     res.status(200).json({ success: true, submissions });

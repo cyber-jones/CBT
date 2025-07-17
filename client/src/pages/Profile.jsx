@@ -15,11 +15,11 @@ const Profile = () => {
               </div>
             </div>
             <div className="flex-1">
-              <h2 className="card-title text-2xl">{user?.lastName} {user?.firstName}</h2>
+              <h2 className="card-title text-lg md:text-2xl">{user?.lastName} {user?.firstName}</h2>
               <p className="text-sm text-gray-500">ID: {user?.idNumber}</p>
               <div className="mt-4 space-y-2">
                 <p><strong>Email:</strong> {user?.email}</p>
-                <p><strong>Full name:</strong> {user?.lastName} {user?.firstName} {user?.middleName}</p>
+                <p><strong>Full name:</strong> {user?.title} {user?.lastName} {user?.firstName} {user?.middleName}</p>
                 <p><strong>Gender:</strong> {user?.gender}</p>
                 <p><strong>User:</strong> {authUser?.role}</p>
                 <p><strong>Date of Birth:</strong> {new Date(user?.dateOfBirth).toLocaleDateString()}</p>

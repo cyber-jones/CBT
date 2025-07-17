@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['Student', 'Lecturer', 'Admin']},
   canSetExams: { type: Boolean, default: false }, // For lecturers, controlled by admin
-  token: { type: String, unique: true },
+  token: { type: String },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

@@ -61,13 +61,14 @@ export const getLecturers = async (req, res, next) => {
 
 export const getStaff = async (req, res, next) => {
   try {
-    const student = await Staff.findById(req.params.id)
+    const staff = await Staff.findById(req.params.id)
       .lean()
       .populate("user")
       .sort({
         createdAt: -1,
       });
-    res.status(200).json({ success: true, student });
+
+    res.status(200).json({ success: true, staff });
   } catch (err) {
     next(err);
   }
