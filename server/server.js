@@ -29,7 +29,7 @@ app.use(cors(corsOptions));
 app.use(helment());
 app.use(express.json());
 app.use(cookieParser());
-const URI = process.env.MONGOOSE_PRODUCTION_URI;
+const URI = process.env.MONGOOSE_DEV_URI;
 
 // Connect to MongoDB
 connectDb(URI);

@@ -17,7 +17,7 @@ const ExamDetails = () => {
   const handleStart = () => {
     // Navigate to exam page or trigger exam start logic
     alert("Exam started!");
-    navigate(cbt_url.startExam+"/1");
+    navigate(cbt_url.startExam + "/1");
   };
 
   const handleReturn = () => {
@@ -33,16 +33,27 @@ const ExamDetails = () => {
             {exam.courseCode} - {exam.courseTitle}
           </h1>
           <div className="text-white space-y-2">
-            <p><strong>Duration:</strong> {exam.duration}</p>
-            <p><strong>Total Questions:</strong> {exam.questions}</p>
-            <p><strong>Total Marks:</strong> {exam.totalMarks}</p>
-            <p className="mt-4"><strong>Instructions:</strong></p>
+            <p>
+              <strong>Duration:</strong> {exam.duration}
+            </p>
+            <p>
+              <strong>Total Questions:</strong> {exam.questions}
+            </p>
+            <p>
+              <strong>Total Marks:</strong> {exam.totalMarks}
+            </p>
+            <p className="mt-4">
+              <strong>Instructions:</strong>
+            </p>
             <p className="text-sm text-red-600">{exam.instructions}</p>
           </div>
 
           <div className="mt-6 flex justify-between">
-            <button className="btn btn-outline btn-secondary" onClick={handleReturn}>
-               Return to List
+            <button
+              className="btn btn-outline btn-secondary"
+              onClick={handleReturn}
+            >
+              Return to List
             </button>
             <button className="btn btn-primary" onClick={handleStart}>
               Start Exam
@@ -52,6 +63,6 @@ const ExamDetails = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ExamDetails;

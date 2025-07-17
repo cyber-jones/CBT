@@ -7,7 +7,7 @@ import useAppContext from "../hooks/useAppContext";
 
 const NavWrapper = ({ children }) => {
   const [activePage, setActivePage] = useState("dashboard");
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { authUser } = useAppContext();
 
   const navItems = [
@@ -48,6 +48,12 @@ const NavWrapper = ({ children }) => {
     hidden: authUser.role == Roles.ADMIN
   },
   {
+    id: cbt_url.lecturerCourses,
+    label: "Courses",
+    icon: <i className="bi bi-journals h-5 w-5"></i>,
+    hidden: authUser.role == Roles.LECTURER
+  },
+  {
     id: cbt_url.exams,
     label: "Exams",
     icon: <i className="bi bi-journal-text h-5 w-5"></i>,
@@ -56,7 +62,7 @@ const NavWrapper = ({ children }) => {
   {
     id: cbt_url.examResult,
     label: "Results",
-    icon: <i className="bi bi-journal-text h-5 w-5"></i>,
+    icon: <i className="bi bi-journal-bookmark h-5 w-5"></i>,
     hidden: true
   },
   {
@@ -86,10 +92,10 @@ const NavWrapper = ({ children }) => {
           </button>
         </div>
         <nav className="mt-4">
-          {navItems.map((item) => (
+          {navItems.map((item, index) => (
             <Link
               to={item.id}
-              key={item.id}
+              key={index}
               hidden={!item.hidden}
               className={`flex items-center px-4 py-2 cursor-pointer hover:bg-gray-700 ${
                 activePage === item.id ? "bg-gray-700" : ""

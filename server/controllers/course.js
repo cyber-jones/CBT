@@ -47,6 +47,20 @@ export const getCourse = async (req, res, next) => {
   }
 };
 
+export const getLecturerCourses = async (req, res, next) => {
+  try {
+    const courses = await Course.find({ lecturer: req.params.id })
+      .lean()
+      .populate("department")
+      .populate("college")
+      .populate("lecturer")
+      .sort({ createdAt: -1 });
+    res.status(200).json({ success: true, courses });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateCourse = async (req, res, next) => {
   try {
     const course = await Course.findByIdAndUpdate(

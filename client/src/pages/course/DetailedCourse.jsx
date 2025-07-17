@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
-import { cbt_url } from "../../utils/SD";
+import { cbt_url, Roles } from "../../utils/SD";
 import useCourse from "../../hooks/useCourse";
+import useAppContext from "../../hooks/useAppContext";
 
 // const course = {
 //   code: "BIO101",
@@ -17,8 +18,11 @@ import useCourse from "../../hooks/useCourse";
 
 const DetailedCourse = () => {
   const navigate = useNavigate();
+  const { authUser } = useAppContext();
   const { id } = useParams();
   const { courses: course } = useCourse(id);
+  const isLecturer = authUser.role === Roles.LECTURER;
+  const isAdmin = authUser.role === Roles.ADMIN;
 
   const handleAction = () => {
     alert("Done!");
@@ -30,23 +34,23 @@ const DetailedCourse = () => {
           {course?.title}
         </h1>
         <p className="text-sm text-gray-500 mb-6">
-          Course Code: {course?.code}
+          Code: {course?.code}
         </p>
 
         <div className="space-y-4">
           <div>
             <h2 className="text-lg font-semibold text-gray-700">Lecturer</h2>
-            <p className="text-gray-800">{course?.lecturer}</p>
+            <p className="text-gray-800">{course?.lecturer.firstName} {course?.lecturer.lastName} {course?.lecturer.middleName}</p>
           </div>
 
           <div>
             <h2 className="text-lg font-semibold text-gray-700">Department</h2>
-            <p className="text-gray-800">{course?.department}</p>
+            <p className="text-gray-800">{course?.department.name}</p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Credits</h2>
-            <p className="text-gray-800">{course?.credits}</p>
+            <h2 className="text-lg font-semibold text-gray-700">Units</h2>
+            <p className="text-gray-800">{course?.unit}</p>
           </div>
 
           <div>
@@ -58,6 +62,7 @@ const DetailedCourse = () => {
 
           <div className="flex gap-3">
             <button
+              hidden={!isAdmin}
               onClick={() =>
                 navigate(cbt_url.updateCourse + "/" + course?._id)
               }
@@ -65,7 +70,17 @@ const DetailedCourse = () => {
             >
               Update
             </button>
+            <button
+              hidden={!isLecturer}
+              onClick={() =>
+                navigate(cbt_url.setEaxm + "/" + course?._id)
+              }
+              className="btn btn-success"
+            >
+              Set Exam
+            </button>
             <Modal
+              hidden={!isAdmin}
               action={"Delete"}
               type={"error"}
               handleAction={handleAction}

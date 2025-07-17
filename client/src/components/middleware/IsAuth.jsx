@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const IsAuth = ({ roles }) => {
   const { authUser, token } = useAppContext();
   const location = useLocation();
-  const isAuth = authUser?.roles && roles.includes(authUser?.role);
+  const isAuth = authUser?.role && roles.includes(authUser?.role);
   const navigate = useNavigate();
 
   const handleRedirect = () => {

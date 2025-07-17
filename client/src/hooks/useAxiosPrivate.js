@@ -1,11 +1,9 @@
 import { useContext, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
-import useRefresh from "./useRefresh";
 import { axiosPrivate } from "../data/axiosConfig";
 
 const useAxiosPrivate = () => {
   const { token } = useContext(AuthContext);
-  const refresh = useRefresh();
 
   useEffect(() => {
     const axiosRequestInterceptors = axiosPrivate.interceptors.request.use(
@@ -21,7 +19,7 @@ const useAxiosPrivate = () => {
     return () => {
       axiosPrivate.interceptors.request.eject(axiosRequestInterceptors);
     };
-  }, [token, refresh]);
+  }, [token]);
 
   return axiosPrivate;
 };

@@ -1,6 +1,6 @@
-const Modal = ({ action, type, handleAction }) => {
+const Modal = ({ action, type, handleAction, hidden }) => {
   return (
-    <div>
+    <div hidden={hidden}>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
         className={`btn btn-${type}`}

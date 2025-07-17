@@ -12,14 +12,13 @@ export const login = async (req, res, next) => {
   if (error)
     return res.status(400).json({ success: false, message: error.message });
   try {
-    
     let user = null;
     if (selectedUser == "student")
       user = await Student.findOne({ idNumber: value.idNumber }).lean();
-    else
-      user = await Staff.findOne({ idNumber: value.idNumber }).lean();
+    else user = await Staff.findOne({ idNumber: value.idNumber }).lean();
 
-    if (!user) return res.status(400).json({ success: false, message: "No user found" });
+    if (!user)
+      return res.status(400).json({ success: false, message: "No user found" });
 
     const authUser = await User.findOne({ idNumber: user.idNumber });
     if (!authUser)
@@ -28,7 +27,10 @@ export const login = async (req, res, next) => {
         .json({ message: "Invalid Matirc No or ID number" });
 
     const isMatch = await bcrypt.compare(value.password, authUser.password);
-    if (!isMatch) return res.status(400).json({ success: false, message: "Invalid password" });
+    if (!isMatch)
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid password" });
 
     const accessToken = jwt.sign(
       { id: authUser._id, role: authUser.role, idNumber: authUser.idNumber },
@@ -63,21 +65,23 @@ export const login = async (req, res, next) => {
   }
 };
 
-
 export const logout = async (req, res, next) => {
   try {
     //On client also delete the access token
 
     const cookies = req.cookies;
-    if (!cookies?.jwt)
-        return res.sendStatus(204);//Succuss No content
+    if (!cookies?.jwt) return res.sendStatus(204); //Succuss No content
     const cookieToken = cookies.jwt;
 
     //Is refresh token in DB?
     const authUser = await User.findOne({ token: cookieToken }).exec();
-    if (!authUser){
-        res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
-        return res.sendStatus(204);
+    if (!authUser) {
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      });
+      return res.sendStatus(204);
     }
 
     //Delete refreshToken in DB
@@ -85,12 +89,11 @@ export const logout = async (req, res, next) => {
     await authUser.save();
 
     res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
-    res.sendStatus(204)
+    res.sendStatus(204);
   } catch (err) {
     next(err);
   }
 };
-
 
 export const grantExamPermission = async (req, res, next) => {
   try {
@@ -108,4 +111,3 @@ export const grantExamPermission = async (req, res, next) => {
     next(err);
   }
 };
-

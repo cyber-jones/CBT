@@ -1,5 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavWrapper from "./components/NavWrapper";
 import DashBoard from "./pages/DashBoard";
 import { cbt_url, Roles } from "./utils/SD";
@@ -35,6 +34,8 @@ import NotFound from "./pages/NotFound";
 import IsLoggedIn from "./components/middleware/IsLoggedIn";
 import IsAuth from "./components/middleware/IsAuth";
 import PersistAuth from "./components/middleware/PersistAuth";
+import LecturerCourses from "./pages/course/LecturerCourses";
+import CreateExam from "./pages/exam/CreateExam";
 
 function App() {
   return (
@@ -55,11 +56,17 @@ function App() {
             <Route path={cbt_url.startExam+"/:id"} element={<Exam />} />
             <Route path={cbt_url.submittedExam} element={<ExamSubmitted />} />
           </Route>
+          <Route element={<IsAuth roles={[Roles.LECTURER]}/>} >
+            <Route path={cbt_url.lecturerCourses} element={<NavWrapper><LecturerCourses /></NavWrapper>} />
+            <Route path={cbt_url.setEaxm+"/:id"} element={<NavWrapper><CreateExam /></NavWrapper>} />
+          </Route>
+          <Route element={<IsAuth roles={[Roles.LECTURER, Roles.ADMIN]}/>} >
+            <Route path={cbt_url.course+"/:id"} element={<NavWrapper><DetailedCourse /></NavWrapper>} />
+          </Route>
           <Route element={<IsAuth roles={[Roles.ADMIN]}/>} >
             <Route path={cbt_url.courses} element={<NavWrapper><Courses /></NavWrapper>} />
             <Route path={cbt_url.createCourse} element={<NavWrapper><RegisterCourse /></NavWrapper>} />
             <Route path={cbt_url.updateCourse+"/:id"} element={<NavWrapper><UpdateCourse /></NavWrapper>} />
-            <Route path={cbt_url.courses+"/:id"} element={<NavWrapper><DetailedCourse /></NavWrapper>} />
 
             <Route path={cbt_url.departments} element={<NavWrapper><Departments /></NavWrapper>} />
             <Route path={cbt_url.createDepartment} element={<NavWrapper><RegisterDepartment /></NavWrapper>} />

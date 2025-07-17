@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import useAxiosPrivate from "./useAxiosPrivate";
 import { useState } from "react";
 
-const useCourse = (id = null) => {
+const useCourse = (id = null, lecturerId = null) => {
   const axiosPrivate = useAxiosPrivate(); 
   const [loading, setLoading] = useState(false);
   const [courses, setCourse] = useState(null);
@@ -13,6 +13,8 @@ const useCourse = (id = null) => {
         let res = null;
         if (id)
             res = await axiosPrivate.get("/course/"+ id);
+        else if (lecturerId)
+            res = await axiosPrivate.get("/course/lecturer/"+ lecturerId);
         else 
             res = await axiosPrivate.get("/course");
 

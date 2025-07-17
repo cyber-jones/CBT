@@ -1,99 +1,97 @@
-import { useState } from "react";
-import axios from "axios";
-import { server_dev_url } from "../utils/SD";
+import { examDuration } from "../data/static";
 
-function ExamForm({ fetchExams }) {
-  const [title, setTitle] = useState("");
-  const [questions, setQuestions] = useState([
-    { question: "", options: ["", "", "", ""], correctAnswer: 0 },
-  ]);
-
-  const addQuestion = () => {
-    setQuestions([
-      ...questions,
-      { question: "", options: ["", "", "", ""], correctAnswer: 0 },
-    ]);
-  };
-
-  const updateQuestion = (index, field, value) => {
-    const newQuestions = [...questions];
-    if (field === "question" || field === "correctAnswer") {
-      newQuestions[index][field] = value;
-    } else {
-      newQuestions[index].options[field] = value;
-    }
-    setQuestions(newQuestions);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        `${server_dev_url}/api/exam`,
-        { title, questions },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      setTitle("");
-      setQuestions([
-        { question: "", options: ["", "", "", ""], correctAnswer: 0 },
-      ]);
-      fetchExams();
-      alert("Exam created successfully!");
-    } catch (err) {
-      alert(err.response?.data?.message || "Failed to create exam.");
-    }
-  };
-
+function ExamForm({
+  time,
+  setTime,
+  deleteQuestion,
+  questions,
+  addQuestion,
+  updateQuestion,
+  handleSubmit,
+}) {
   return (
-    <form onSubmit={handleSubmit} className="exam-form">
-      <h2>Create Exam</h2>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Exam Title"
-        required
-      />
-      {questions.map((q, index) => (
-        <div key={index} className="question">
-          <input
-            type="text"
-            value={q.question}
-            onChange={(e) => updateQuestion(index, "question", e.target.value)}
-            placeholder={`Question ${index + 1}`}
-            required
-          />
-          {q.options.map((opt, i) => (
-            <input
-              key={i}
-              type="text"
-              value={opt}
-              onChange={(e) => updateQuestion(index, i, e.target.value)}
-              placeholder={`Option ${i + 1}`}
-              required
-            />
+    <form
+      onSubmit={handleSubmit}
+      className="w-full lg:w-10/12 flex flex-col border justify-center items-center gap-7"
+    >
+      <div className="text-center">
+        <h2 className="text-blue-500 text-lg lg:text-2xl">Create Exam</h2>
+        <p className="text-white text-sm lg:text-lg">
+          CPS102: Introduction to programming II
+        </p>
+        <p className="text-red-500 text-sm lg:text-lg">Unit: 2</p>
+        <select
+          className="select"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+          required
+        >
+          <option>Set exam duration</option>
+          { examDuration.map(duration => (
+            <option key={duration.value} value={duration.value}>{duration.name}</option>
           ))}
-          <select
-            value={q.correctAnswer}
-            onChange={(e) =>
-              updateQuestion(index, "correctAnswer", Number(e.target.value))
-            }
-            required
-          >
-            {q.options.map((_, i) => (
-              <option key={i} value={i}>
-                Option {i + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-      ))}
-      <button type="button" onClick={addQuestion}>
-        Add Question
-      </button>
-      <button type="submit">Create Exam</button>
+        </select>
+      </div>
+      <div className="w-11/12 lg:w-10/12 flex flex-col gap-5">
+        {questions.map((q, index) => (
+          <div key={index} className="w-full flex flex-col border p-2">
+            <div className="w-full">
+              <input
+                required
+                type="text"
+                value={q.question}
+                placeholder={`Question ${index + 1}`}
+                className="input w-full"
+                onChange={(e) =>
+                  updateQuestion(index, "question", e.target.value)
+                }
+              />
+            </div>
+            <div className="w-full grid grid-cols-2 grid-rows-2 place-content-center place-items-center">
+              {q.options.map((opt, i) => (
+                <input
+                  key={i}
+                  type="text"
+                  value={opt}
+                  onChange={(e) => updateQuestion(index, i, e.target.value)}
+                  placeholder={`Option ${i + 1}`}
+                  className="input w-11/12"
+                  required
+                />
+              ))}
+            </div>
+            <div className="w-full flex justify-center items-center">
+              <select
+                className="select"
+                value={q.correctAnswer}
+                onChange={(e) =>
+                  updateQuestion(index, "correctAnswer", Number(e.target.value))
+                }
+                required
+              >
+                <option>Select an answer</option>
+                {q.options.map((_, i) => (
+                  <option key={i} value={i}>
+                    Option {i + 1}
+                  </option>
+                ))}
+              </select>
+              <i
+                className="bi bi-trash text-lg text-red-700 cursor-pointer ml-7"
+                onClick={() => deleteQuestion(index)}
+              ></i>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="w-10/12 grid grid-cols-2 grid-rows-1 gap-4 mb-2">
+        <button type="button" className="btn btn-primary" onClick={addQuestion}>
+          Add Question
+        </button>
+        <button type="submit" className="btn btn-success">
+          Create Exam
+        </button>
+      </div>
     </form>
   );
 }
