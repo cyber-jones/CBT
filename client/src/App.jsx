@@ -36,6 +36,8 @@ import IsAuth from "./components/middleware/IsAuth";
 import PersistAuth from "./components/middleware/PersistAuth";
 import LecturerCourses from "./pages/course/LecturerCourses";
 import CreateExam from "./pages/exam/CreateExam";
+import StaffProfile from "./pages/staff/StaffProfile";
+import StudentProfile from "./pages/students/StudentProfile";
 
 function App() {
   return (
@@ -79,11 +81,13 @@ function App() {
             <Route path={cbt_url.colleges+"/:id"} element={<NavWrapper><DetailedCollege /></NavWrapper>} />
 
             <Route path={cbt_url.staffRegistration} element={<NavWrapper><RegisterStaff /></NavWrapper>} />
-            <Route path={cbt_url.staff+"/:id"} element={<NavWrapper><UpdateStaff /></NavWrapper>} />
+            <Route path={cbt_url.staff+"/:id"} element={<NavWrapper><StaffProfile /></NavWrapper>} />
+            <Route path={cbt_url.updateStaff+"/:id"} element={<NavWrapper><UpdateStaff /></NavWrapper>} />
             <Route path={cbt_url.staffs} element={<NavWrapper><Staffs /></NavWrapper>} />
 
             <Route path={cbt_url.studentRegistration} element={<NavWrapper><RegisterStudent /></NavWrapper>} />
-            <Route path={cbt_url.student+"/:id"} element={<NavWrapper><UpdateStudent /></NavWrapper>} />
+            <Route path={cbt_url.student+"/:id"} element={<NavWrapper><StudentProfile /></NavWrapper>} />
+            <Route path={cbt_url.updateStudent+"/:id"} element={<NavWrapper><UpdateStudent /></NavWrapper>} />
             <Route path={cbt_url.students} element={<NavWrapper><Students /></NavWrapper>} />
           </Route>
         </Route>

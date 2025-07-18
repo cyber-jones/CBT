@@ -210,7 +210,7 @@ const UpdateStaff = () => {
               type="text"
               id="role"
               name="role"
-              value={formData?.user.role}
+              value={formData?.user?.role}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"

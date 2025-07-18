@@ -1,7 +1,11 @@
-import useAppContext from "../hooks/useAppContext";
+import { useNavigate, useParams } from "react-router-dom";
+import useStaff from "../../hooks/useStaff";
+import { cbt_url } from "../../utils/SD";
 
-const Profile = () => {
-  const { user, authUser } = useAppContext();
+const StaffProfile = () => {
+  const { id } = useParams();
+  const { staffs: staff } = useStaff(id);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-base-200 p-6">
@@ -20,27 +24,36 @@ const Profile = () => {
             </div>
             <div className="flex-1">
               <h2 className="card-title text-lg md:text-2xl">
-                {user?.lastName} {user?.firstName}
+                {staff?.lastName} {staff?.firstName}
               </h2>
-              <p className="text-sm text-gray-500">ID: {user?.idNumber}</p>
+              <p className="text-sm text-gray-500">ID: {staff?.idNumber}</p>
               <div className="mt-4 space-y-2">
                 <p>
-                  <strong>Email:</strong> {user?.email}
+                  <strong>Email:</strong> {staff?.email}
                 </p>
                 <p>
-                  <strong>Full name:</strong> {user?.title} {user?.lastName}{" "}
-                  {user?.firstName} {user?.middleName}
+                  <strong>Full name:</strong> {staff?.lastName}{" "}
+                  {staff?.firstName} {staff?.middleName}
                 </p>
                 <p>
-                  <strong>Gender:</strong> {user?.gender}
+                  <strong>Gender:</strong> {staff?.gender}
                 </p>
                 <p>
-                  <strong>User:</strong> {authUser?.role}
+                  <strong>User:</strong> Staff
                 </p>
                 <p>
                   <strong>Date of Birth:</strong>{" "}
-                  {new Date(user?.dateOfBirth).toLocaleDateString()}
+                  {new Date(staff?.dateOfBirth).toLocaleDateString()}
                 </p>
+              </div>
+              <div className="mt-5">
+                <button
+                  onClick={() => navigate(cbt_url.updateStaff + "/" + id)}
+                  className="btn btn-primary"
+                >
+                  Update
+                </button>
+                <button className="btn btn-success ml-4">Allow Exam</button>
               </div>
             </div>
           </div>
@@ -50,4 +63,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default StaffProfile;

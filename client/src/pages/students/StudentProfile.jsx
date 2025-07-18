@@ -1,7 +1,11 @@
-import useAppContext from "../hooks/useAppContext";
+import { useNavigate, useParams } from "react-router-dom";
+import useStudent from "../../hooks/useStudent";
+import { cbt_url } from "../../utils/SD";
 
-const Profile = () => {
-  const { user, authUser } = useAppContext();
+const StudentProfile = () => {
+  const { id } = useParams();
+  const { students: student } = useStudent(id);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-base-200 p-6">
@@ -20,27 +24,35 @@ const Profile = () => {
             </div>
             <div className="flex-1">
               <h2 className="card-title text-lg md:text-2xl">
-                {user?.lastName} {user?.firstName}
+                {student?.lastName} {student?.firstName}
               </h2>
-              <p className="text-sm text-gray-500">ID: {user?.idNumber}</p>
+              <p className="text-sm text-gray-500">ID: {student?.idNumber}</p>
               <div className="mt-4 space-y-2">
                 <p>
-                  <strong>Email:</strong> {user?.email}
+                  <strong>Email:</strong> {student?.email}
                 </p>
                 <p>
-                  <strong>Full name:</strong> {user?.title} {user?.lastName}{" "}
-                  {user?.firstName} {user?.middleName}
+                  <strong>Full name:</strong> {student?.lastName}{" "}
+                  {student?.firstName} {student?.middleName}
                 </p>
                 <p>
-                  <strong>Gender:</strong> {user?.gender}
+                  <strong>Gender:</strong> {student?.gender}
                 </p>
                 <p>
-                  <strong>User:</strong> {authUser?.role}
+                  <strong>User:</strong> Student
                 </p>
                 <p>
                   <strong>Date of Birth:</strong>{" "}
-                  {new Date(user?.dateOfBirth).toLocaleDateString()}
+                  {new Date(student?.dateOfBirth).toLocaleDateString()}
                 </p>
+              </div>
+              <div className="mt-5">
+                <button
+                  onClick={() => navigate(cbt_url.updateStudent + "/" + id)}
+                  className="btn btn-primary"
+                >
+                  Update
+                </button>
               </div>
             </div>
           </div>
@@ -50,4 +62,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default StudentProfile;
