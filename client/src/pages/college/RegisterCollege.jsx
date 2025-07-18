@@ -34,16 +34,16 @@ const RegisterCollege = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-xl mx-auto bg-white text-gray-700 p-8 rounded-lg shadow">
-        <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans">
+      <div className="max-w-xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg text-stone-400 lg:text-2xl font-bold mb-6">
           Register New College
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="code"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               College Code
             </label>
@@ -60,7 +60,7 @@ const RegisterCollege = () => {
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium"
             >
               College Name
             </label>

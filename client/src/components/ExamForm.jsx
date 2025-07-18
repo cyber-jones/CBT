@@ -91,13 +91,13 @@ function ExamForm({
                 className="select"
                 value={q.correctAnswer}
                 onChange={(e) =>
-                  updateQuestion(index, "correctAnswer", Number(e.target.value))
+                  updateQuestion(index, "correctAnswer", e.target.value)
                 }
                 required
               >
                 <option>Select an answer</option>
-                {q.options.map((_, i) => (
-                  <option key={i} value={i}>
+                {q.options.map((option, i) => (
+                  <option key={i} value={option}>
                     Option {i + 1}
                   </option>
                 ))}

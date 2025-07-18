@@ -2,6 +2,7 @@ import { cbt_url } from "../../utils/SD";
 import useCourse from "../../hooks/useCourse";
 import useAppContext from "../../hooks/useAppContext";
 import { Link } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 const LecturerCourses = () => {
   const { user } = useAppContext();
@@ -35,7 +36,7 @@ const LecturerCourses = () => {
               </Link>
             ))
           ) : (
-            <p>Loading...</p>
+            <Loading />
           )}
         </div>
       </div>

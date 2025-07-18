@@ -4,6 +4,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { cbt_url } from "../../utils/SD";
+import useCollege from "../../hooks/useCollege";
 
 const UpdateDepartment = () => {
   const [formData, setFormData] = useState({});
@@ -13,6 +14,7 @@ const UpdateDepartment = () => {
   const axiosPrivate = useAxiosPrivate();
   const { loading: loadingDepartment, departments: department } =
     useDepartment(id);
+      const { loading: loadingCollege, colleges } = useCollege();
 
   useEffect(() => {
     if (!loadingDepartment && department) setFormData(department);
@@ -42,9 +44,9 @@ const UpdateDepartment = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
-        <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans">
+      <div className="max-w-xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg text-stone-400 lg:text-2xl font-bold mb-6">
           Update Department
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -95,12 +97,22 @@ const UpdateDepartment = () => {
               type="text"
               id="college"
               name="college"
-              value={formData?.college}
+              value={formData?.college?._id}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
-              <option>Name</option>
+              <option></option>
+              <option className="dark:text-black" value="General">General</option>
+              {!loadingCollege && colleges ? (
+                colleges.map((college, index) => (
+                  <option className="dark:text-black" key={index} value={college._id}>
+                    {college.code}
+                  </option>
+                ))
+              ) : (
+                <option>Loading...</option>
+              )}
             </select>
           </div>
 

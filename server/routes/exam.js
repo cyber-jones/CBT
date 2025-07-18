@@ -6,9 +6,6 @@ import {
   getAllExams,
   getExam,
   submitExam,
-  getSubmissionLecturer,
-  getResults,
-  getSubmissionAdmin,
   approveResult,
   getLecturerExams,
   getStudentExams,
@@ -16,6 +13,12 @@ import {
   DeleteExam,
   updateExam,
   getCourseExam,
+  getSubmissions,
+  getSubmission,
+  getSubmissionsByExamId,
+  getSubmissionsByLecturerId,
+  getSubmissionsByStudentId,
+  getSubmissionsByCourseId,
 } from "../controllers/exam.js";
 import { ROLES } from "../utils/SD.js";
 
@@ -30,11 +33,12 @@ router.get("/:id", auth(ROLES), getExam);
 router.get("/toggle-start/:id", auth([ROLES[1]]), toggleExamStart);
 router.get("/:id", auth([ROLES[1]]), DeleteExam);
 router.post("/submit", auth([ROLES[2]]), submitExam);
-router.get("/submissions", auth([ROLES[1]]), getSubmissionLecturer);
-// Grade submission (Lecturer)
-// router.put("/grade/:id", auth([ROLES[1]]), gradeSubmission);
-router.get("/results", auth([ROLES[2]]), getResults);
-router.get("/submissions/admin", auth([ROLES[0]]), getSubmissionAdmin);
+router.get("/submissions", auth([ROLES[1]]), getSubmissions);
+router.get("/submission/:id", auth(ROLES), getSubmission);
+router.get("/submission-exam/:id", auth(ROLES), getSubmissionsByExamId);
+router.get("/submissions/lecturer/:id", auth([ROLES[0], ROLES[1]]), getSubmissionsByLecturerId);
+router.get("/submissions/student/:id", auth([ROLES[0], ROLES[2]]), getSubmissionsByStudentId);
+router.get("/submissions/course/:id", auth(ROLES), getSubmissionsByCourseId);
 router.put("/approve-result/:id", auth([ROLES[0]]), approveResult);
 
 export default router;

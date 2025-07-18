@@ -60,10 +60,10 @@ const NavWrapper = ({ children }) => {
     hidden: true
   },
   {
-    id: cbt_url.examResult,
+    id: cbt_url.results,
     label: "Results",
     icon: <i className="bi bi-journal-bookmark h-5 w-5"></i>,
-    hidden: [Roles.LECTURER, Roles.STUDENT].includes(authUser.role)
+    hidden: authUser.role == Roles.STUDENT
   },
   {
     id: cbt_url.profile,

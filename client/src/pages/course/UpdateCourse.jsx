@@ -48,9 +48,9 @@ const UpdateCourse = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
-        <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans overflow-y-scroll">
+      <div className="max-w-xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg text-stone-400 lg:text-2xl font-bold mb-6">
           Update Course
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -115,7 +115,7 @@ const UpdateCourse = () => {
               <option></option>
               {unit &&
                 unit.map((unit) => (
-                  <option key={unit.name} value={unit.name}>
+                  <option className="dark:text-black" key={unit.name} value={unit.name}>
                     {unit.name}
                   </option>
                 ))}
@@ -138,7 +138,7 @@ const UpdateCourse = () => {
               <option></option>
               {level &&
                 level.map((level) => (
-                  <option key={level.name} value={level.name}>
+                  <option className="dark:text-black" key={level.name} value={level.name}>
                     {level.name}
                   </option>
                 ))}
@@ -153,7 +153,7 @@ const UpdateCourse = () => {
               type="text"
               id="lecturer"
               name="lecturer"
-              value={formData?.lecturer}
+              value={formData?.lecturer?._id}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -161,7 +161,7 @@ const UpdateCourse = () => {
               <option></option>
               {!loadingLecturers && lecturers ? (
                 lecturers.map((lecturer, index) => (
-                  <option key={index} value={lecturer._id}>
+                  <option className="dark:text-black" key={index} value={lecturer._id}>
                     {lecturer.title} {lecturer.firstName} {lecturer.lastName}{" "}
                     {lecturer.middleName}
                   </option>
@@ -180,16 +180,16 @@ const UpdateCourse = () => {
               type="text"
               id="department"
               name="department"
-              value={formData?.department}
+              value={formData?.department?._id}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option value="General">General</option>
+              <option className="dark:text-black" value="General">General</option>
               {!loadingDepartment && departments ? (
                 departments.map((department, index) => (
-                  <option key={index} value={department._id}>
+                  <option className="dark:text-black" key={index} value={department._id}>
                     {department.code}
                   </option>
                 ))
@@ -207,16 +207,16 @@ const UpdateCourse = () => {
               type="text"
               id="college"
               name="college"
-              value={formData?.college}
+              value={formData?.college?._id}
               onChange={handleChange}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option value="General">General</option>
+              <option className="dark:text-black" value="General">General</option>
               {!loadingCollege && colleges ? (
                 colleges.map((college, index) => (
-                  <option key={index} value={college._id}>
+                  <option className="dark:text-black" key={index} value={college._id}>
                     {college.code}
                   </option>
                 ))

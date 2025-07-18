@@ -12,26 +12,26 @@ const DetailedDepartment = () => {
     alert("Done!");
   };
   return (
-    <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
-        <h1 className="text-lg lg:text-3xl font-bold mb-4 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans">
+      <div className="max-w-3xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg lg:text-3xl font-bold mb-4">
           {department?.name}
         </h1>
 
         <div className="space-y-4">
           <div>
-            <span className="text-lg font-semibold text-gray-700">college code:{" "}</span>
-            <span className="text-gray-800">{department?.college.code}</span>
+            <span className="text-lg font-semibold">college code:{" "}</span>
+            <span>{department?.college.code}</span>
           </div>
 
           <div>
-            <span className="text-lg font-semibold text-gray-700">college:{" "}</span>
-            <span className="text-gray-800">{department?.college.name}</span>
+            <span className="text-lg font-semibold">college:{" "}</span>
+            <span>{department?.college.name}</span>
           </div>
 
           <div>
-            <span className="text-lg font-semibold text-gray-700">code:{" "}</span>
-            <span className="text-gray-800">{department?.code}</span>
+            <span className="text-lg font-semibold">code:{" "}</span>
+            <span>{department?.code}</span>
           </div>
 
           <div className="flex gap-3">

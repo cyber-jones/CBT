@@ -36,9 +36,9 @@ const RegisterDepartment = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
-        <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans">
+      <div className="max-w-xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg lg:text-2xl text-stone-400 font-bold mb-6">
           Register New Department
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -85,7 +85,7 @@ const RegisterDepartment = () => {
               <option></option>
               {!loadingCollege && colleges ? (
                 colleges.map((college, index) => (
-                  <option key={index} value={college._id}>
+                  <option className="dark:text-black" key={index} value={college._id}>
                     {college.code}
                   </option>
                 ))

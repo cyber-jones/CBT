@@ -36,9 +36,9 @@ const RegisterStaff = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans overflow-y-scroll">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
-        <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans overflow-y-scroll">
+      <div className="max-w-xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg lg:text-2xl font-bold mb-6">
           Register New Staff
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -113,7 +113,7 @@ const RegisterStaff = () => {
               <option></option>
               {title &&
                 title.map((title) => (
-                  <option key={title.id} value={title.name}>
+                  <option className="dark:text-black" key={title.id} value={title.name}>
                     {title.name}
                   </option>
                 ))}
@@ -164,7 +164,7 @@ const RegisterStaff = () => {
               <option value="General">General</option>
               {!loadingCollege && colleges ? (
                 colleges.map((college, index) => (
-                  <option key={index} value={college._id}>
+                  <option className="dark:text-black" key={index} value={college._id}>
                     {college.code}
                   </option>
                 ))
@@ -187,8 +187,8 @@ const RegisterStaff = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option className="Male">Male</option>
-              <option className="Female">Female</option>
+              <option className="dark:text-black" value="Male">Male</option>
+              <option className="dark:text-black" value="Female">Female</option>
             </select>
           </div>
 
@@ -205,8 +205,8 @@ const RegisterStaff = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option className="Admin">Admin</option>
-              <option className="Lecturer">Lecturer</option>
+              <option className="dark:text-black" value="Admin">Admin</option>
+              <option className="dark:text-black" value="Lecturer">Lecturer</option>
             </select>
           </div>
 

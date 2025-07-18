@@ -45,35 +45,35 @@ const DetailedCourse = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
-        <h1 className="text-lg lg:text-3xl font-bold mb-4 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans">
+      <div className="max-w-3xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg lg:text-3xl font-bold mb-4 ">
           {course?.title}
         </h1>
-        <p className="text-sm text-gray-500 mb-6">Code: {course?.code}</p>
+        <p className="text-sm mb-6">Code: {course?.code}</p>
 
         <div className="space-y-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Lecturer</h2>
-            <p className="text-gray-800">
+            <h2 className="text-lg font-semibold ">Lecturer</h2>
+            <p className="">
               {course?.lecturer.title} {course?.lecturer.firstName}{" "}
               {course?.lecturer.lastName} {course?.lecturer.middleName}
             </p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Department</h2>
-            <p className="text-gray-800">{course?.department.name}</p>
+            <h2 className="text-lg font-semibold ">Department</h2>
+            <p className="">{course?.department.name}</p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Units</h2>
-            <p className="text-gray-800">{course?.unit}</p>
+            <h2 className="text-lg font-semibold ">Units</h2>
+            <p className="">{course?.unit}</p>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-700">Description</h2>
-            <p className="text-gray-800 leading-relaxed">
+            <h2 className="text-lg font-semibold ">Description</h2>
+            <p className=" leading-relaxed">
               {course?.description}
             </p>
           </div>

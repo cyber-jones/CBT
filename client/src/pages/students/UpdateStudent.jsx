@@ -46,10 +46,10 @@ const UpdateStudent = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans overflow-y-scroll">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
-        <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
-          Update New Student
+    <div className="p-6 h-full bg-base-200 font-sans overflow-y-scroll">
+      <div className="max-w-xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg text-stone-400 lg:text-2xl font-bold mb-6">
+          Update Student
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -161,6 +161,26 @@ const UpdateStudent = () => {
           </div>
 
           <div>
+            <label htmlFor="gender" className="block text-sm font-medium">
+              Gender
+            </label>
+            <select
+              type="text"
+              id="gender"
+              name="gender"
+              value={formData?.gender}
+              onChange={handleChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option></option>
+              <option className="dark:text-black" value="Male">Male</option>
+              <option className="dark:text-black" value="Female">Female</option>
+            </select>
+          </div>
+
+
+          <div>
             <label htmlFor="level" className="block text-sm font-medium">
               Level
             </label>
@@ -176,7 +196,7 @@ const UpdateStudent = () => {
               <option></option>
               {level &&
                 level.map((level) => (
-                  <option key={level.name} value={level.name}>
+                  <option className="dark:text-black" key={level.name} value={level.name}>
                     {level.name}
                   </option>
                 ))}
@@ -197,7 +217,7 @@ const UpdateStudent = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option value="General">General</option>
+              <option className="dark:text-black" value="General">General</option>
               {!loadingDepartment && departments ? (
                 departments.map((department, index) => (
                   <option key={index} value={department._id}>
@@ -224,7 +244,7 @@ const UpdateStudent = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option></option>
-              <option value="General">General</option>
+              <option className="dark:text-black" value="General">General</option>
               {!loadingCollege && colleges ? (
                 colleges.map((college, index) => (
                   <option key={index} value={college._id}>
@@ -243,7 +263,7 @@ const UpdateStudent = () => {
             { loading ? "..." : "Update Student" }
           </button>
         </form>
-      </div>3
+      </div>
     </div>
   );
 };

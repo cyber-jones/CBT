@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const questionSchema = new mongoose.Schema({
   question: { type: String, required: true },
   options: [{ type: String, required: true }],
-  correctAnswer: { type: Number, required: true } // Index of correct option
+  correctAnswer: { type: String, required: true } // Index of correct option
 });
 
 const examSchema = new mongoose.Schema({
@@ -15,6 +15,7 @@ const examSchema = new mongoose.Schema({
   instruction: { type: String, required: true },
   totalMark: { type: Number, required: true },
   start: { type: Boolean, default: false },
+  written: { type: Boolean, default: false },
   allowedStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student'}]
 }, { timestamps: true });
 

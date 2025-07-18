@@ -14,13 +14,13 @@ const useExam = (id = null, lecturerId = null, studentId = null, courseId = null
     try {
         let res = null;
         if (id)
-            res = await axiosPrivate.get("/exam/"+ id);
+            res = await axiosPrivate.get("/exam/"+id);
         else if (lecturerId)
-            res = await axiosPrivate.get("/exam/lecturer/"+ lecturerId);
+            res = await axiosPrivate.get("/exam/lecturer/"+lecturerId);
         else if (studentId)
-            res = await axiosPrivate.get("/exam/student/"+ studentId);
+            res = await axiosPrivate.get("/exam/student/"+studentId);
         else if (courseId)
-            res = await axiosPrivate.get("/exam/course/"+ courseId);
+            res = await axiosPrivate.get("/exam/course/"+courseId);
         else 
             res = await axiosPrivate.get("/exam");
 

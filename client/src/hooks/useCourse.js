@@ -14,9 +14,9 @@ const useCourse = (id = null, lecturerId = null) => {
     try {
         let res = null;
         if (id)
-            res = await axiosPrivate.get("/course/"+ id);
+            res = await axiosPrivate.get("/course/"+id);
         else if (lecturerId)
-            res = await axiosPrivate.get("/course/lecturer/"+ lecturerId);
+            res = await axiosPrivate.get("/course/lecturer/"+lecturerId);
         else 
             res = await axiosPrivate.get("/course");
 

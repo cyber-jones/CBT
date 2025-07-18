@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { cbt_url } from "../../utils/SD";
 import useCollege from "../../hooks/useCollege";
+import Loading from "../../components/Loading";
 
 
 const Colleges = () => {
@@ -8,9 +9,9 @@ const Colleges = () => {
   const { loading, colleges } = useCollege();
 
   return (
-    <div className="p-6 font-sans h-full bg-green-100">
+    <div className="p-6 font-sans h-full bg-base-200">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-lg lg:text-3xl font-bold text-gray-800">
+        <h1 className="text-lg  text-stone-400 lg:text-3xl font-bold">
           Colleges
         </h1>
         <button
@@ -21,10 +22,10 @@ const Colleges = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-scroll max-h-11/12">
+      <div className="bg-base-100 rounded-lg shadow overflow-scroll max-h-11/12">
         {!loading && colleges ? (
-          <table className="w-full text-left text-[10px] md:text-sm">
-            <thead className="bg-green-400 text-gray-700">
+          <table className="w-full text-center text-[10px] md:text-sm">
+            <thead className="bg-green-400">
               <tr>
                 <th className="p-3">Code</th>
                 <th className="p-3">Name</th>
@@ -37,16 +38,16 @@ const Colleges = () => {
                   key={college._id}
                   className="border-b hover:cursor-pointer hover:bg-gray-50"
                 >
-                  <td className="p-3 font-medium text-gray-800">
+                  <td className="p-3 font-medium">
                     {college.code}
                   </td>
-                  <td className="p-3 text-gray-800">{college.name}</td>
+                  <td className="p-3">{college.name}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         ) : (
-          <p>Loading...</p>
+          <Loading />
         )}
       </div>
     </div>

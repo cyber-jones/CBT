@@ -1,41 +1,16 @@
 import useSubmission from "../../hooks/useSubmission";
-import useAppContext from "../../hooks/useAppContext";
 import Loading from "../../components/Loading";
 import useCourse from "../../hooks/useCourse";
+import { useParams } from "react-router-dom";
 
-// const exams = [
-//   {
-//     subject: "Mathematics",
-//     date: "2025-06-12",
-//     score: 85,
-//     status: "Passed",
-//   },
-//   {
-//     subject: "English Language",
-//     date: "2025-06-14",
-//     score: 72,
-//     status: "Passed",
-//   },
-//   {
-//     subject: "Biology",
-//     date: "2025-06-16",
-//     score: 58,
-//     status: "Failed",
-//   },
-//   {
-//     subject: "Computer Science",
-//     date: "2025-06-18",
-//     score: 90,
-//     status: "Passed",
-//   },
-// ];
 
-const StudentResult = () => {
-  const { user } = useAppContext();
-  const { loading, submissions } = useSubmission(null, null, user._id);
-  const { loading: loadingCourse, courses } = useCourse();
+const CourseResults = () => {
+  const { id } = useParams();
+  const { loading, submissions } = useSubmission(null, null, null, null, id);
+  const { loading: loadingCourse, courses: course } = useCourse(id);
+  
   if (loading) return <Loading />;
-  console.log(submissions);
+
   return (
     <div className="min-h-screen bg-base-200 p-6">
       <div className="max-w-5xl mx-auto">
@@ -43,12 +18,12 @@ const StudentResult = () => {
           📚 Exam Results
         </div>
         <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
+          <table className="table table-zebra w-full text-center">
             <thead className="bg-base-300 text-base-content">
               <tr>
                 <th>#</th>
-                <th>Course</th>
-                <th>Date</th>
+                <th>Student</th>
+                <th>Date of submission</th>
                 <th>Percentage (%)</th>
                 <th>Score </th>
                 <th>Status</th>
@@ -62,10 +37,7 @@ const StudentResult = () => {
                     <th>{index + 1}</th>
                     <td>
                       {!loadingCourse &&
-                        courses &&
-                        courses.find(
-                          (course) => course._id === submission.exam.course
-                        ).code}
+                        course.code}
                     </td>
                     <td>{new Date(submission.submittedAt).toDateString()}</td>
                     <td>{submission.percentage}</td>
@@ -91,4 +63,4 @@ const StudentResult = () => {
   );
 };
 
-export default StudentResult;
+export default CourseResults;

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { cbt_url, Roles } from "../../utils/SD";
 import useExam from "../../hooks/useExam";
 import useAppContext from "../../hooks/useAppContext";
+import { examDuration } from "../../data/static";
+import Loading from "../../components/Loading";
 
 // const courses = [
 //   {
@@ -38,7 +40,7 @@ const Exams = () => {
   const { loading, exams } = examList;
 
   return (
-    <div className="min-h-screen bg-base-200 p-6">
+    <div className="min-h-full bg-base-200 p-6">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-lg md:text-3xl font-bold text-center mb-8">
           📋 Exam List
@@ -58,11 +60,11 @@ const Exams = () => {
                     Units: {exam.course.unit}
                   </span>
                   <span className="text-red-600 ml-4">
-                    2hrs 30mins                 </span>
+                    {(examDuration.find(ex => Number(ex.value) === Number(exam?.time))?.name )}                 </span>
                 </div>
               </div>
             </Link>
-          )) : <p>Loading...</p>}
+          )) : <Loading />}
         </div>
       </div>
     </div>

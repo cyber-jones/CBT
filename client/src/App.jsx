@@ -17,7 +17,6 @@ import UpdateCollege from "./pages/college/UpdateCollege";
 import DetailedCollege from "./pages/college/DetailedCollege";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import StudentExams from "./pages/students/StudentExams";
 import StudentResult from "./pages/students/StudentResults";
 import Exams from "./pages/exam/Exams";
 import ExamDetails from "./pages/exam/ExamDetails";
@@ -38,6 +37,7 @@ import LecturerCourses from "./pages/course/LecturerCourses";
 import CreateExam from "./pages/exam/CreateExam";
 import StaffProfile from "./pages/staff/StaffProfile";
 import StudentProfile from "./pages/students/StudentProfile";
+import CourseResults from "./pages/course/CourseResults";
 
 function App() {
   return (
@@ -53,10 +53,12 @@ function App() {
             <Route path={cbt_url.exam+"/:id"} element={<NavWrapper><ExamDetails /></NavWrapper>} />
 
             <Route path={cbt_url.studentResult} element={<NavWrapper><StudentResult /></NavWrapper>} />
-            <Route path={cbt_url.studentExams} element={<NavWrapper><StudentExams /></NavWrapper>} />
-
+ 
             <Route path={cbt_url.startExam+"/:id"} element={<Exam />} />
             <Route path={cbt_url.submittedExam} element={<ExamSubmitted />} />
+          </Route>
+          <Route element={<IsAuth roles={[Roles.STUDENT]}/>} >
+            <Route path={cbt_url.results} element={<NavWrapper><StudentResult /></NavWrapper>} />
           </Route>
           <Route element={<IsAuth roles={[Roles.LECTURER]}/>} >
             <Route path={cbt_url.lecturerCourses} element={<NavWrapper><LecturerCourses /></NavWrapper>} />
@@ -64,6 +66,7 @@ function App() {
           </Route>
           <Route element={<IsAuth roles={[Roles.LECTURER, Roles.ADMIN]}/>} >
             <Route path={cbt_url.course+"/:id"} element={<NavWrapper><DetailedCourse /></NavWrapper>} />
+            <Route path={cbt_url.courseResults+"/:id"} element={<NavWrapper><CourseResults /></NavWrapper>} />
           </Route>
           <Route element={<IsAuth roles={[Roles.ADMIN]}/>} >
             <Route path={cbt_url.courses} element={<NavWrapper><Courses /></NavWrapper>} />

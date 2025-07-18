@@ -41,9 +41,9 @@ const RegisterCourse = () => {
   };
 
   return (
-    <div className="p-6 h-full bg-green-100 font-sans overflow-y-scroll">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow text-gray-800">
-        <h1 className="text-lg lg:text-2xl font-bold mb-6 text-gray-800">
+    <div className="p-6 h-full bg-base-200 font-sans overflow-y-scroll">
+      <div className="max-w-xl mx-auto bg-base-100 p-8 rounded-lg shadow">
+        <h1 className="text-lg text-stone-400 lg:text-2xl font-bold mb-6">
           Register New Course
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -104,7 +104,7 @@ const RegisterCourse = () => {
               <option></option>
               {unit &&
                 unit.map((unit) => (
-                  <option key={unit.name} value={unit.name}>
+                  <option className="dark:text-black" key={unit.name} value={unit.name}>
                     {unit.name}
                   </option>
                 ))}
@@ -126,7 +126,7 @@ const RegisterCourse = () => {
               <option></option>
               {level &&
                 level.map((level) => (
-                  <option key={level.name} value={level.name}>
+                  <option className="dark:text-black" key={level.name} value={level.name}>
                     {level.name}
                   </option>
                 ))}
@@ -148,7 +148,7 @@ const RegisterCourse = () => {
               <option></option>
               {!loadingLecturers && lecturers ? (
                 lecturers.map((lecturer, index) => (
-                  <option key={index} value={lecturer._id}>
+                  <option className="dark:text-black" key={index} value={lecturer._id}>
                     {lecturer.title} {lecturer.firstName} {lecturer.lastName}{" "}
                     {lecturer.middleName}
                   </option>
@@ -175,7 +175,7 @@ const RegisterCourse = () => {
               <option value="General">General</option>
               {!loadingDepartment && departments ? (
                 departments.map((department, index) => (
-                  <option key={index} value={department._id}>
+                  <option className="dark:text-black" key={index} value={department._id}>
                     {department.code}
                   </option>
                 ))
@@ -200,7 +200,7 @@ const RegisterCourse = () => {
               <option></option>
               {!loadingCollege && colleges ? (
                 colleges.map((college, index) => (
-                  <option key={index} value={college._id}>
+                  <option className="dark:text-black" key={index} value={college._id}>
                     {college.code}
                   </option>
                 ))

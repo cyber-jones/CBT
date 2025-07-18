@@ -18,17 +18,17 @@ const CreateExam = () => {
   const { courses: course } = useCourse(id);
   const [time, setTime] = useState(examDuration[0].value);
   const [totalMark, setTotalMark] = useState(30);
-  const [instruction, setInstruction] = useState(null);
+  const [instruction, setInstruction] = useState("");
   const [questions, setQuestions] = useState(
     localStorage.getItem("questions")
       ? JSON.parse(localStorage.getItem("questions"))
-      : [{ question: "", options: ["", "", "", ""], correctAnswer: 0 }]
+      : [{ question: "", options: ["", "", "", ""], correctAnswer: "" }]
   );
 
   const addQuestion = () => {
     setQuestions([
       ...questions,
-      { question: "", options: ["", "", "", ""], correctAnswer: 0 },
+      { question: "", options: ["", "", "", ""], correctAnswer: "" },
     ]);
   };
 
@@ -65,6 +65,7 @@ const CreateExam = () => {
       const res = await axiosPrivate.post("/exam", {
         course: id,
         lecturer: user._id,
+        department: course.department._id,
         questions,
         time,
         totalMark,
