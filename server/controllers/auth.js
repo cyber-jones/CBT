@@ -14,8 +14,15 @@ export const login = async (req, res, next) => {
   try {
     let user = null;
     if (selectedUser == "student")
-      user = await Student.findOne({ idNumber: value.idNumber }).lean();
-    else user = await Staff.findOne({ idNumber: value.idNumber }).lean();
+      user = await Student.findOne({ idNumber: value.idNumber })
+        .lean()
+        .populate("user");
+    else
+      user = await Staff.findOne({ idNumber: value.idNumber })
+        .lean()
+        .populate("user")
+        .populate("college")
+        .populate("department");
 
     if (!user)
       return res.status(400).json({ success: false, message: "No user found" });

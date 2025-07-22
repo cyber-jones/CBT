@@ -5,6 +5,7 @@ import useExam from "../../hooks/useExam";
 import useAppContext from "../../hooks/useAppContext";
 import { examDuration } from "../../data/static";
 import Loading from "../../components/Loading";
+import { useEffect, useState } from "react";
 
 // const courses = [
 //   {
@@ -30,15 +31,33 @@ import Loading from "../../components/Loading";
 // ];
 
 const Exams = () => {
+  const [allExams, setAllExams] = useState(null);
   const { authUser, user } = useAppContext();
   let examList = null;
-  if (authUser.role === Roles.LECTURER) 
-    examList = useExam(null, user._id);
+  if (authUser.role === Roles.LECTURER) examList = useExam(null, user._id);
   else if (authUser.role === Roles.STUDENT)
     examList = useExam(null, null, user?.department._id);
   else examList = useExam();
   const { loading, exams } = examList;
-
+  console.log(user);
+  console.log(exams);
+  useEffect(() => {
+    if (!loading && exams) {
+      if (authUser.role === Roles.STUDENT) {
+        const filteredExams = exams.filter(
+          (exam) =>
+            exam.course.level == user.level &&
+            exam.department.name == user.department.name
+        );
+        setAllExams(filteredExams);
+      } else if (authUser.role === Roles.LECTURER) {
+        const filteredExams = exams.filter(
+          (exam) => exam.course.lecturer == user._id
+        );
+        setAllExams(filteredExams);
+      } else setAllExams(exams);
+    }
+  }, [loading, exams, authUser, user]);
   return (
     <div className="min-h-full bg-base-200 p-6">
       <div className="max-w-6xl mx-auto">
@@ -46,25 +65,38 @@ const Exams = () => {
           📋 Exam List
         </h1>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 hover:cursor-pointer">
-          { !loading && exams ? exams.map((exam, index) => (
-            <Link
-              to={cbt_url.exam+"/"+exam._id}
-              key={index}
-              className="card shadow-lg bg-base-100 border border-base-300"
-            >
-              <div className="card-body">
-                <h2 className="card-title text-primary">{exam.course.code}</h2>
-                <p className="text-[15px] md:text-lg font-semibold">{exam.course.title}</p>
-                <div className="mt-2">
-                  <span className="badge badge-info badge-outline">
-                    Units: {exam.course.unit}
-                  </span>
-                  <span className="text-red-600 ml-4">
-                    {(examDuration.find(ex => Number(ex.value) === Number(exam?.time))?.name )}                 </span>
+          {!loading && allExams ? (
+            allExams.map((exam, index) => (
+              <Link
+                to={cbt_url.exam + "/" + exam._id}
+                key={index}
+                className="card shadow-lg bg-base-100 border border-base-300"
+              >
+                <div className="card-body">
+                  <h2 className="card-title text-primary">
+                    {exam.course.code}
+                  </h2>
+                  <p className="text-[15px] md:text-lg font-semibold">
+                    {exam.course.title}
+                  </p>
+                  <div className="mt-2">
+                    <span className="badge badge-info badge-outline">
+                      Units: {exam.course.unit}
+                    </span>
+                    <span className="text-red-600 ml-4">
+                      {
+                        examDuration.find(
+                          (ex) => Number(ex.value) === Number(exam?.time)
+                        )?.name
+                      }{" "}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          )) : <Loading />}
+              </Link>
+            ))
+          ) : (
+            <Loading />
+          )}
         </div>
       </div>
     </div>

@@ -59,9 +59,7 @@ export const getStudent = async (req, res, next) => {
       .populate("user")
       .populate("college")
       .populate("department")
-      .sort({
-        createdAt: -1,
-      });
+      
     res.status(200).json({ success: true, student });
   } catch (err) {
     next(err);

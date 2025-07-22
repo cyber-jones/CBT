@@ -2,7 +2,7 @@ import useAppContext from "../hooks/useAppContext";
 
 const Profile = () => {
   const { user, authUser } = useAppContext();
-
+  console.log(user);
   return (
     <div className="min-h-screen bg-base-200 p-6">
       <div className="max-w-3xl mx-auto">
@@ -34,6 +34,21 @@ const Profile = () => {
                 <p>
                   <strong>Gender:</strong> {user?.gender}
                 </p>
+                {user?.department?.name ? (
+                  <p>
+                    <strong>Department:</strong> {user?.department?.name}
+                  </p>
+                ) : null}
+                {user?.college?.name ? (
+                  <p>
+                    <strong>College:</strong> {user?.college?.name}
+                  </p>
+                ) : null}
+                {user?.level ? (
+                  <p>
+                    <strong>Level:</strong> {user?.level}
+                  </p>
+                ) : null}
                 <p>
                   <strong>User:</strong> {authUser?.role}
                 </p>

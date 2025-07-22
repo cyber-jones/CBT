@@ -38,6 +38,7 @@ import CreateExam from "./pages/exam/CreateExam";
 import StaffProfile from "./pages/staff/StaffProfile";
 import StudentProfile from "./pages/students/StudentProfile";
 import CourseResults from "./pages/course/CourseResults";
+import CourseResult from "./pages/course/CourseResult";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
  
             <Route path={cbt_url.startExam+"/:id"} element={<Exam />} />
             <Route path={cbt_url.submittedExam} element={<ExamSubmitted />} />
+            <Route path={cbt_url.courseResult+"/:id"} element={<NavWrapper><CourseResult /></NavWrapper>} />
           </Route>
           <Route element={<IsAuth roles={[Roles.STUDENT]}/>} >
             <Route path={cbt_url.results} element={<NavWrapper><StudentResult /></NavWrapper>} />

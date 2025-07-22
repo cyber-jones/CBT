@@ -114,14 +114,14 @@ const ExamDetails = () => {
             </button>
 
             <button
-              hidden={!isStudent || submission?.student?._id === user._id}
+              hidden={!isStudent || submission?.student?._id === user._id || !exam?.start}
               className="btn btn-success"
               onClick={handleStart}
             >
               Start Exam
             </button>
             <button
-              hidden={!isLecturer}
+              hidden={!isLecturer || !exam?.start}
               className="btn btn-default"
               onClick={handleToggleStart}
             >
@@ -134,6 +134,13 @@ const ExamDetails = () => {
             >
               Update Exam
             </button>
+            <button
+              hidden={!isStudent || !exam?.written}
+              className="btn btn-success"
+              onClick={() => navigate(cbt_url.courseResult+"/"+exam?.course?._id)}
+            >
+              View Result
+             </button> 
             <button
               hidden={!isLecturer || !exam?.written || exam?.start}
               className="btn btn-success"

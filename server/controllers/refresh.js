@@ -9,15 +9,27 @@ export const getRefresh = async (req, res, next) => {
     const cookies = req.cookies;
 
     if (!cookies?.jwt)
-      return res.status(401).json({ success: false, message: "Unauthorized: invalid cookie!" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized: invalid cookie!" });
 
     const authUser = await User.findOne({ token: cookies?.jwt });
     let theUser = null;
-    if (authUser.role == ROLES[2]) theUser = await Student.findOne({ idNumber: authUser.idNumber }).lean();
-    else theUser = await Staff.findOne({ idNumber: authUser.idNumber }).lean();
+    if (authUser.role == ROLES[2])
+      theUser = await Student.findOne({ idNumber: authUser.idNumber })
+        .lean()
+        .populate("user")
+        .populate("college")
+        .populate("department");
+    else
+      theUser = await Staff.findOne({ idNumber: authUser.idNumber })
+        .lean()
+        .populate("user");
 
     if (!authUser)
-      return res.status(401).json({ success: false, message: "Unauthorized: token not found!" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized: token not found!" });
 
     jwt.verify(authUser.token, process.env.JWT_SECRET, (err, user) => {
       if (err || authUser._id.toString() !== user.id.toString())
@@ -29,7 +41,9 @@ export const getRefresh = async (req, res, next) => {
         { expiresIn: "1h" }
       );
 
-      res.status(200).json({ success: true, accessToken, authUser, user: theUser });
+      res
+        .status(200)
+        .json({ success: true, accessToken, authUser, user: theUser });
     });
   } catch (err) {
     next(err);
