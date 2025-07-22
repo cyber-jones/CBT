@@ -2,6 +2,7 @@ import useSubmission from "../../hooks/useSubmission";
 import useAppContext from "../../hooks/useAppContext";
 import Loading from "../../components/Loading";
 import useCourse from "../../hooks/useCourse";
+import { useEffect, useState } from "react";
 
 // const exams = [
 //   {
@@ -31,11 +32,20 @@ import useCourse from "../../hooks/useCourse";
 // ];
 
 const StudentResult = () => {
+  const [results, setResults] = useState(null);
   const { user } = useAppContext();
   const { loading, submissions } = useSubmission(null, null, user._id);
   const { loading: loadingCourse, courses } = useCourse();
+  
+
+  useEffect(() => {
+    if (!loading && submissions) {
+      const filtered = submissions.filter(submission => submission.exam.viewResult === true);
+      setResults(filtered);
+    }
+  }, [loading, submissions]);
   if (loading) return <Loading />;
-  console.log(submissions);
+
   return (
     <div className="min-h-screen bg-base-200 p-6">
       <div className="max-w-5xl mx-auto">
@@ -56,8 +66,8 @@ const StudentResult = () => {
             </thead>
             <tbody>
               {!loading &&
-                submissions &&
-                submissions.map((submission, index) => (
+                results &&
+                results.map((submission, index) => (
                   <tr key={index}>
                     <th>{index + 1}</th>
                     <td>

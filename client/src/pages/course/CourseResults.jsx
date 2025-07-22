@@ -59,6 +59,9 @@ const CourseResults = () => {
           </table>
         </div>
       </div>
+      <div>
+        <button className="btn btn-success">Release Result</button>
+      </div>
     </div>
   );
 };

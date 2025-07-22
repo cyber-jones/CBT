@@ -50,6 +50,25 @@ const Exam = () => {
     Number(localStorage.getItem("time"))
   ); // 10 minutes in seconds
 
+
+  
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      // Run your custom function here
+      console.log("User is leaving the page");
+      handleSubmit();
+
+      e.preventDefault();
+      e.returnValue = ""; // Show browser confirmation dialog
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   // Countdown timer
   useEffect(() => {
     if (!loadingExam && exam) {

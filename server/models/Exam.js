@@ -16,6 +16,7 @@ const examSchema = new mongoose.Schema({
   totalMark: { type: Number, required: true },
   start: { type: Boolean, default: false },
   written: { type: Boolean, default: false },
+  viewResult: { type: Boolean, default: false },
   allowedStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student'}]
 }, { timestamps: true });
 

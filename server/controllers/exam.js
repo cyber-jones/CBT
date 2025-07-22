@@ -46,12 +46,12 @@ export const getLecturerExams = async (req, res, next) => {
 
 export const getStudentExams = async (req, res, next) => {
   try {
-    const exams = await Exam.find({
-      $or: [{ department: req.params }, { department: "None" }],
-    })
+    const exams = await Exam.find({ department: req.params.id })
       .lean()
       .populate("course")
-      .populate("lecturer");
+      .populate("lecturer")
+      .populate("department");
+      
     res.status(200).json({ success: true, exams });
   } catch (err) {
     next(err);

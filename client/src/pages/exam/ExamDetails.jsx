@@ -135,7 +135,7 @@ const ExamDetails = () => {
               Update Exam
             </button>
             <button
-              hidden={!isStudent || !exam?.written}
+              hidden={!isStudent || !exam?.viewResult}
               className="btn btn-success"
               onClick={() => navigate(cbt_url.courseResult+"/"+exam?.course?._id)}
             >
