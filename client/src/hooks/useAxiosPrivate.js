@@ -6,7 +6,7 @@ import useLogout from "./useLogout";
 
 const useAxiosPrivate = () => {
   const { token } = useContext(AuthContext);
-  const logout = useLogout();
+  const logout = useLogout;
 
   useEffect(() => {
     const axiosRequestInterceptors = axiosPrivate.interceptors.request.use(
@@ -22,7 +22,7 @@ const useAxiosPrivate = () => {
     const axiosResponseInterceptors = axiosPrivate.interceptors.response.use(
       response => response, async (err) => {
         console.log("Res-Interceptors", err);
-        if (err?.response?.status === 403) logout();
+        if (err?.response?.status === 403) (logout())();
         return err;
       }
     );

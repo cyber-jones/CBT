@@ -1,13 +1,15 @@
 import useSubmission from "../../hooks/useSubmission";
 import Loading from "../../components/Loading";
 import useCourse from "../../hooks/useCourse";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { cbt_url } from "../../utils/SD";
 
 
 const CourseResults = () => {
   const { id } = useParams();
   const { loading, submissions } = useSubmission(null, null, null, null, id);
   const { loading: loadingCourse, courses: course } = useCourse(id);
+  const navigate = useNavigate();
   
   if (loading) return <Loading />;
 
@@ -33,7 +35,7 @@ const CourseResults = () => {
               {!loading &&
                 submissions &&
                 submissions.map((submission, index) => (
-                  <tr key={index}>
+                  <tr key={index} onClick={() => navigate(cbt_url.courseResult+"/"+submission._id)} className="cursor-pointer">
                     <th>{index + 1}</th>
                     <td>
                       {!loadingCourse &&
@@ -59,7 +61,7 @@ const CourseResults = () => {
           </table>
         </div>
       </div>
-      <div>
+      <div className="mt-5">
         <button className="btn btn-success">Release Result</button>
       </div>
     </div>
