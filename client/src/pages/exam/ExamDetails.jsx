@@ -121,7 +121,7 @@ const ExamDetails = () => {
               Start Exam
             </button>
             <button
-              hidden={!isLecturer || !exam?.start}
+              hidden={!isLecturer}
               className="btn btn-default"
               onClick={handleToggleStart}
             >
