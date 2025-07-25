@@ -28,7 +28,7 @@ const useSubmission = (id = null, examId = null, studentId = null, lecturerId = 
 
       if (res.status !== 200)
         return toast.error(res.data?.message || res.statusText);
-
+      
       setSubmission(id || examId ? res.data?.submission : res.data?.submissions);
     } catch (err) {
       toast.error(err.response?.data?.message || err.message);

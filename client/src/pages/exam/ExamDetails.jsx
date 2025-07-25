@@ -29,6 +29,7 @@ const ExamDetails = () => {
   const axiosPrivate = useAxiosPrivate();
   const isStudent = authUser.role === Roles.STUDENT;
   const isLecturer = authUser.role === Roles.LECTURER;
+  const isAllowed = authUser.role === Roles.LECTURER || authUser.role === Roles.ADMIN;
 
   const handleStart = () => {
     alert("Exam started!");
@@ -88,6 +89,9 @@ const ExamDetails = () => {
               }
             </p>
             <p>
+              <strong>Lecturer: </strong>{exam?.lecturer.title} {exam?.lecturer.firstName} {exam?.lecturer.lastName}
+            </p>
+            <p>
               <strong>Total Questions:</strong> {exam?.questions.length}
             </p>
             <p>
@@ -137,12 +141,12 @@ const ExamDetails = () => {
             <button
               hidden={!isStudent || !exam?.viewResult}
               className="btn btn-success"
-              onClick={() => navigate(cbt_url.courseResult+"/"+exam?.course?._id)}
+              onClick={() => navigate(cbt_url.studentCourseResult+"/"+exam?.course?._id)}
             >
               View Result
              </button> 
             <button
-              hidden={!isLecturer || !exam?.written || exam?.start}
+              hidden={!isAllowed || !exam?.written || exam?.start}
               className="btn btn-success"
               onClick={() => navigate(cbt_url.courseResults+"/"+exam?.course?._id)}
             >

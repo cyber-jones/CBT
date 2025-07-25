@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import useCourse from "../../hooks/useCourse";
 import { useEffect, useState } from "react";
 import { cbt_url } from "../../utils/SD";
+import { useNavigate } from "react-router-dom";
 
 // const exams = [
 //   {
@@ -37,7 +38,7 @@ const StudentResult = () => {
   const { user } = useAppContext();
   const { loading, submissions } = useSubmission(null, null, user._id);
   const { loading: loadingCourse, courses } = useCourse();
-  const navigate = navigate();
+  const navigate = useNavigate();
   
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const StudentResult = () => {
               {!loading &&
                 results &&
                 results.map((submission, index) => (
-                  <tr key={index}  onClick={() => navigate(cbt_url.courseResult+"/"+submission._id)}>
+                  <tr key={index}  onClick={() => navigate(cbt_url.courseResult+"/"+submission._id)} className="cursor-pointer">
                     <th>{index + 1}</th>
                     <td>
                       {!loadingCourse &&

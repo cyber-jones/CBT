@@ -19,6 +19,7 @@ import {
   getSubmissionsByLecturerId,
   getSubmissionsByStudentId,
   getSubmissionsByCourseId,
+  toggleReleaseResult,
 } from "../controllers/exam.js";
 import { ROLES } from "../utils/SD.js";
 
@@ -31,6 +32,7 @@ router.get("/student/:id", auth(ROLES), getStudentExams);
 router.get("/course/:id", auth(ROLES), getCourseExam);
 router.get("/:id", auth(ROLES), getExam);
 router.get("/toggle-start/:id", auth([ROLES[1]]), toggleExamStart);
+router.get("/toggle-release-result/:id", auth([ROLES[0], ROLES[1]]), toggleReleaseResult);
 router.get("/:id", auth([ROLES[1]]), DeleteExam);
 router.post("/submit", auth([ROLES[2]]), submitExam);
 router.get("/submissions", auth([ROLES[1]]), getSubmissions);

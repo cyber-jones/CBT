@@ -16,6 +16,7 @@ export const cbt_url = {
     result: "/result",
     courseResults: "/course/results",
     courseResult: "/course/result",
+    studentCourseResult: "/course/student/result",
     setEaxm: "/exam/create/",
     students: "/students",
     student: "/student",

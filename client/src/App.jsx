@@ -57,14 +57,15 @@ function App() {
  
             <Route path={cbt_url.startExam+"/:id"} element={<Exam />} />
             <Route path={cbt_url.submittedExam} element={<ExamSubmitted />} />
-            <Route path={cbt_url.courseResult+"/:id"} element={<NavWrapper><CourseResult /></NavWrapper>} />
           </Route>
           <Route element={<IsAuth roles={[Roles.STUDENT]}/>} >
             <Route path={cbt_url.results} element={<NavWrapper><StudentResult /></NavWrapper>} />
+            <Route path={cbt_url.studentCourseResult+"/:id"} element={<NavWrapper><StudentResult /></NavWrapper>} />
           </Route>
           <Route element={<IsAuth roles={[Roles.LECTURER]}/>} >
             <Route path={cbt_url.lecturerCourses} element={<NavWrapper><LecturerCourses /></NavWrapper>} />
             <Route path={cbt_url.setEaxm+"/:id"} element={<NavWrapper><CreateExam /></NavWrapper>} />
+            <Route path={cbt_url.courseResult+"/:id"} element={<NavWrapper><CourseResult /></NavWrapper>} />
           </Route>
           <Route element={<IsAuth roles={[Roles.LECTURER, Roles.ADMIN]}/>} >
             <Route path={cbt_url.course+"/:id"} element={<NavWrapper><DetailedCourse /></NavWrapper>} />

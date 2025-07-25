@@ -119,6 +119,25 @@ export const toggleExamStart = async (req, res, next) => {
   }
 };
 
+export const toggleReleaseResult = async (req, res, next) => {
+  try {
+    const exam = await Exam.findById(req.params.id);
+
+    if (exam.viewResult) exam.viewResult = false;
+    else exam.viewResult = true;
+
+    await exam.save();
+
+    let message = null;
+    if (exam.viewResult) message = "Exam results released for students";
+    else message = "Exam results closed for students!";
+
+    res.status(200).json({ success: true, message, exam });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const DeleteExam = async (req, res, next) => {
   try {
     await Exam.findByIdAndDelete(req.params.id);
